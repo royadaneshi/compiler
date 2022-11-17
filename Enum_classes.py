@@ -17,3 +17,4 @@ class ErrorMsg:
     Unclosed_comment = 'Unclosed comment'
     Unmatched_comment = 'Unmatched comment'
     Invalid_number = 'Invalid number'
+

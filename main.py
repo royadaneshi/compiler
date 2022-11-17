@@ -95,6 +95,7 @@ def get_next_token():  # read from file
                             error_handling(comment, Enum_classes.ErrorMsg.Unclosed_comment)
                             continue
 
+
                 elif next_char == "/":  # match comment
                     while 1:
                         symbol_char = file.read(1)
