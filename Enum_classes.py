@@ -12,4 +12,8 @@ class Token:
     Whitespace = 'WHITESPACE'
 
 
-
+class ErrorMsg:
+    Invalid_input = 'Invalid input'
+    Unclosed_comment = 'Unclosed comment'
+    Unmatched_comment = 'Unmatched comment'
+    Invalid_number = 'Invalid number'
