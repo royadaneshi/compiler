@@ -3,7 +3,7 @@ import re
 import Enum_classes
 
 
-def get_next_token():  # read from file
+def get_next_token():  # this function reads from file character by character and finds token
     file = open('input.txt', 'r')
     number = ""
     identifier = ""
@@ -118,7 +118,7 @@ def get_next_token():  # read from file
 
         elif re.match(whitespace_pattern, char):
             return
-        elif not char :  # end of file
+        elif not char:  # end of file
             file.close()
             return
         else:
@@ -127,36 +127,55 @@ def get_next_token():  # read from file
 
 # def find_line_number_of_token():
 
+def error_massage_table(line_number, token_until_here, error_massage):
+    lexical_errors_file = open("lexical_errors.txt", "r")
+    content_file = lexical_errors_file.read()
+    lexical_errors_file.close()
+
+    if content_file == "There is no lexical error.":
+        lexical_errors_file = open("lexical_errors.txt", "w")
+        lexical_errors_file.write("lineno  Error Message")
+        lexical_errors_file.write("\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
+        lexical_errors_file.close()
+    else:
+        lexical_errors_file = open("lexical_errors.txt", "a")
+        lexical_errors_file.write("\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
+        lexical_errors_file.close()
+
+
+def symbol_table(no, lexeme):  # if symbol is new then add it to the table whit appropriate line number else don't
+    symbol_table_file = open("symbol_table.txt", "a")
+    symbol_table_file.write("\n" + str(no) + "  " + lexeme)
+    symbol_table_file.close()
+
 
 def scanner():  # scanner
     "TO DO"
 
 
-def symbol_table():
-    "TO DO"
-
-
 def error_handling(token_until_here, error_massage):
-    "DO TO PANIC MODE"
-
-
-def error_massage_table():
-    "TO DO"
+    "TO DO PANIC MODE"
 
 
 if __name__ == '__main__':
+    " DO not change these lines"
+    lexical_errors_file1 = open("lexical_errors.txt", "w+")
+    lexical_errors_file1.write("There is no lexical error.")
+    lexical_errors_file1.close()
+
+    symbol_table_file1 = open("symbol_table.txt", "w+")
+    symbol_table_file1.write("no  lexeme")
+    symbol_table_file1.write("\n1   if")
+    symbol_table_file1.write("\n2   else")
+    symbol_table_file1.write("\n3   void")
+    symbol_table_file1.write("\n4   int")
+    symbol_table_file1.write("\n5   while")
+    symbol_table_file1.write("\n6   break")
+    symbol_table_file1.write("\n7   switch")
+    symbol_table_file1.write("\n8   default")
+    symbol_table_file1.write("\n9   case")
+    symbol_table_file1.write("\n10   return")
+    symbol_table_file1.write("\n11   endif")
+    symbol_table_file1.close()
+    ""
     scanner()
-    # # whitespace_pattern=re.compile("^[ \n\r\t\v\f]$")
-    # file = open('in.txt', 'r')
-    # q = file.read(1)
-    # print(q, " -> ", file.tell())
-    #
-    # while 1:
-    #     if q is None or q==" ":
-    #         file.close()
-    #         break
-    #     d = file.read(1)
-    #     print(d," -> ",file.tell().real)
-    #     if not d :
-    #         file.close()
-    #         break

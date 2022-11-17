@@ -1,5 +1,3 @@
-import enum
-
 
 class Token:
     Invalid = 'Invalid'
