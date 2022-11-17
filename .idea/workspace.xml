@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="fix some error in scanner">
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="complete finding token and making error table and symbol table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Enum_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/Enum_classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668677743674</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="complete finding token and making error table and symbol table">
+      <created>1668687532046</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668687532046</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -112,6 +118,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add scanner code to read char by char from file and recognize the token" />
     <MESSAGE value="fix some error in scanner" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix some error in scanner" />
+    <MESSAGE value="complete finding token and making error table and symbol table" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete finding token and making error table and symbol table" />
   </component>
 </project>

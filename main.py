@@ -1,10 +1,13 @@
 import re
-
+import os
 import Enum_classes
 
 
-def get_next_token():  # this function reads from file character by character and finds token
+def get_next_token(current_position):  # this function reads from file character by character and finds token
     file = open('input.txt', 'r')
+    file.seek(0, os.SEEK_END)
+    end_of_file = file.tell()
+    file.seek(current_position)  ##############
     number = ""
     identifier = ""
     keyword = ""
@@ -19,8 +22,12 @@ def get_next_token():  # this function reads from file character by character an
     while 1:
         # read by character
         char = file.read(1)
+        if not char or file.tell() == end_of_file:  # end of file
+            position = file.tell()
+            file.close()
+            return position, "EOF", ""
         # match number
-        if re.match(number_pattern, char):
+        elif re.match(number_pattern, char):
             number = number + char
             while 1:
                 num_char = file.read(1)
@@ -30,10 +37,10 @@ def get_next_token():  # this function reads from file character by character an
                     if re.match(identifier_pattern1, num_char):
                         error_input = number + num_char
                         error_handling(error_input, Enum_classes.ErrorMsg.Invalid_number)
-                        return
+                        return file.tell(), "", ""
                     else:
-                        file.seek(-1, 1)  # move file pointer 1 char behind current position
-                        return Enum_classes.Token.Number, number
+                        file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
+                        return file.tell(), Enum_classes.Token.Number, number
         # match identifier
         elif re.match(identifier_pattern1, char):
             identifier = identifier + char
@@ -42,32 +49,31 @@ def get_next_token():  # this function reads from file character by character an
                 if re.match(identifier_pattern2, identifier_char):
                     identifier = identifier + identifier_char
                 else:
-                    file.seek(-1, 1)  # move file pointer 1 char behind current position
+                    file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
                     # match keywords
                     if identifier == "if":
-                        return Enum_classes.Token.Keyword, "if"
+                        return file.tell(), Enum_classes.Token.Keyword, "if"
                     elif identifier == "else":
-                        return Enum_classes.Token.Keyword, "else"
+                        return file.tell(), Enum_classes.Token.Keyword, "else"
                     elif identifier == "void":
-                        return Enum_classes.Token.Keyword, "void"
+                        return file.tell(), Enum_classes.Token.Keyword, "void"
                     elif identifier == "int":
-                        return Enum_classes.Token.Keyword, "int"
+                        return file.tell(), Enum_classes.Token.Keyword, "int"
                     elif identifier == "while":
-                        return Enum_classes.Token.Keyword, "while"
+                        return file.tell(), Enum_classes.Token.Keyword, "while"
                     elif identifier == "break":
-                        return Enum_classes.Token.Keyword, "break"
+                        return file.tell(), Enum_classes.Token.Keyword, "break"
                     elif identifier == "switch":
-                        return Enum_classes.Token.Keyword, "switch"
+                        return file.tell(), Enum_classes.Token.Keyword, "switch"
                     elif identifier == "default":
-                        return Enum_classes.Token.Keyword, "default"
+                        return file.tell(), Enum_classes.Token.Keyword, "default"
                     elif identifier == "case":
-                        return Enum_classes.Token.Keyword, "case"
+                        return file.tell(), Enum_classes.Token.Keyword, "case"
                     elif identifier == "return":
-                        return Enum_classes.Token.Keyword, "return"
+                        return file.tell(), Enum_classes.Token.Keyword, "return"
                     elif identifier == "endif":
-                        return Enum_classes.Token.Keyword, "endif"
-
-                    return Enum_classes.Token.Identifier, identifier
+                        return file.tell(), Enum_classes.Token.Keyword, "endif"
+                    return file.tell(), Enum_classes.Token.Identifier, identifier
         # match symbol
         elif re.match(symbol_pattern, char):
             # symbol=symbol+char
@@ -75,10 +81,10 @@ def get_next_token():  # this function reads from file character by character an
             if char == "=":
                 next_char = file.read(1)
                 if next_char == "=":
-                    return Enum_classes.Token.Symbol, "=="
+                    return file.tell(), Enum_classes.Token.Symbol, "=="
                 else:
-                    file.seek(-1, 1)  # move file pointer 1 char behind current position
-                    return Enum_classes.Token.Symbol, "="
+                    file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
+                    return file.tell(), Enum_classes.Token.Symbol, "="
             elif char == "/":  # match comment
                 next_char = file.read(1)
                 comment = comment + next_char
@@ -89,7 +95,7 @@ def get_next_token():  # this function reads from file character by character an
                         if symbol_char == "*":
                             symbol_char2 = file.read(1)
                             if symbol_char2 == "/":
-                                return
+                                return file.tell(), "", ""
                             continue
                         elif symbol_char is None:
                             error_handling(comment, Enum_classes.ErrorMsg.Unclosed_comment)
@@ -99,28 +105,28 @@ def get_next_token():  # this function reads from file character by character an
                         symbol_char = file.read(1)
                         comment = comment + symbol_char
                         if ord(symbol_char) == 10:
-                            return
+                            return file.tell(), "", ""
                         if not symbol_char:  # end of file
                             file.close()
                             error_handling(comment, Enum_classes.ErrorMsg.Unclosed_comment)
                         else:
                             continue
                 else:
-                    return Enum_classes.Token.Symbol, char
+                    file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
+                    return file.tell(), Enum_classes.Token.Symbol, char
             elif char == "*":  # match comment
                 next_char = file.read(1)
                 if next_char == "/":
                     error_handling("*/", Enum_classes.ErrorMsg.Unmatched_comment)
                 else:
-                    return Enum_classes.Token.Symbol, char
+                    file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
+                    return file.tell(), Enum_classes.Token.Symbol, char
             else:
-                return Enum_classes.Token.Symbol, char
+                return file.tell(), Enum_classes.Token.Symbol, char
+
 
         elif re.match(whitespace_pattern, char):
-            return
-        elif not char:  # end of file
-            file.close()
-            return
+            return file.tell(), "", ""
         else:
             error_handling(char, Enum_classes.ErrorMsg.Invalid_input)  # did not match any pattern
 
@@ -135,11 +141,21 @@ def error_massage_table(line_number, token_until_here, error_massage):
     if content_file == "There is no lexical error.":
         lexical_errors_file = open("lexical_errors.txt", "w")
         lexical_errors_file.write("lineno  Error Message")
-        lexical_errors_file.write("\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
+        if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
+            lexical_errors_file.write(
+                "\n" + str(line_number) + "       (" + token_until_here[0:7] + "..., " + error_massage + ")")
+        else:
+            lexical_errors_file.write(
+                "\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
         lexical_errors_file.close()
     else:
         lexical_errors_file = open("lexical_errors.txt", "a")
-        lexical_errors_file.write("\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
+        if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
+            lexical_errors_file.write(
+                "\n" + str(line_number) + "       (" + token_until_here[0:7] + "..., " + error_massage + ")")
+        else:
+            lexical_errors_file.write(
+                "\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
         lexical_errors_file.close()
 
 
@@ -177,5 +193,26 @@ if __name__ == '__main__':
     symbol_table_file1.write("\n10   return")
     symbol_table_file1.write("\n11   endif")
     symbol_table_file1.close()
-    ""
-    scanner()
+
+    curser_position = 0
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
+    ans = get_next_token(curser_position)
+    curser_position = ans[0]
+    print(ans)
