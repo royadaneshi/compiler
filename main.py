@@ -21,8 +21,7 @@ def get_next_token(current_position, line_position):
     symbol_pattern = re.compile("^[;:,+\-*<=/{}()\[\]]$")
     whitespace_pattern = re.compile("^[ \n\r\t\v\f]$")
 
-    # while 1:
-    # read by character
+    # read character by character
     char = file.read(1)
     if not char or file.tell() == end_of_file:  # end of file
         position = file.tell()
