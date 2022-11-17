@@ -13,7 +13,7 @@ def get_next_token():  # read from file
     number_pattern = re.compile("^[0-9]$")
     identifier_pattern1 = re.compile("^[A-Za-z]$")
     identifier_pattern2 = re.compile("^[A-Za-z0-9]$")
-    symbol_pattern = re.compile("^[;:,+\-*<=/{}()\[\]]$")  # ==
+    symbol_pattern = re.compile("^[;:,+\-*<=/{}()\[\]]$")
     whitespace_pattern = re.compile("^[ \n\r\t\v\f]$")
 
     while 1:
@@ -94,15 +94,13 @@ def get_next_token():  # read from file
                         elif symbol_char is None:
                             error_handling(comment, Enum_classes.ErrorMsg.Unclosed_comment)
                             continue
-
-
                 elif next_char == "/":  # match comment
                     while 1:
                         symbol_char = file.read(1)
                         comment = comment + symbol_char
                         if ord(symbol_char) == 10:
                             return
-                        if symbol_char is None:  # end of file
+                        if not symbol_char:  # end of file
                             file.close()
                             error_handling(comment, Enum_classes.ErrorMsg.Unclosed_comment)
                         else:
@@ -120,11 +118,14 @@ def get_next_token():  # read from file
 
         elif re.match(whitespace_pattern, char):
             return
-        elif char is None:  # end of file
+        elif not char :  # end of file
             file.close()
             return
         else:
             error_handling(char, Enum_classes.ErrorMsg.Invalid_input)  # did not match any pattern
+
+
+# def find_line_number_of_token():
 
 
 def scanner():  # scanner
@@ -144,14 +145,18 @@ def error_massage_table():
 
 
 if __name__ == '__main__':
-    # scanner()
+    scanner()
     # # whitespace_pattern=re.compile("^[ \n\r\t\v\f]$")
-    w = "[]"
-    # x = "q"
-    # # re.match(pattern, w)
-    # print(ord(w))
-
-    symbol_pattern = re.compile("^[;:,+\-*<=/{}()\[\]]$")  # ==
-
-    if re.match(symbol_pattern, w):
-        print("**")
+    # file = open('in.txt', 'r')
+    # q = file.read(1)
+    # print(q, " -> ", file.tell())
+    #
+    # while 1:
+    #     if q is None or q==" ":
+    #         file.close()
+    #         break
+    #     d = file.read(1)
+    #     print(d," -> ",file.tell().real)
+    #     if not d :
+    #         file.close()
+    #         break
