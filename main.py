@@ -7,12 +7,11 @@ def get_next_token():  # read from file
     file = open('input.txt', 'r')
     number = ""
     identifier = ""
-    symbol = ""
 
     number_pattern = re.compile("^[0-9]$")
     identifier_pattern1 = re.compile("^[A-Za-z]$")
     identifier_pattern2 = re.compile("^[A-Za-z0-9]$")
-    symbol_pattern = re.compile("^[;:,+\-*<=/]$")  # ==
+    symbol_pattern = re.compile("^[;:,+\-*<=/{}()\[\]]$")  # ==
     whitespace_pattern = re.compile("^[ \n\r\t\v\f]$")
 
     while 1:
@@ -274,36 +273,8 @@ def get_next_token():  # read from file
                             file.close()
                         else:
                             continue
-        elif char == "[":
-            symbol = symbol + char
-            while 1:
-                symbol_char = file.read(1)
-                if symbol_char == "]":
-                    symbol = symbol + symbol_char
-                    return Enum_classes.Token.Symbol, symbol
                 else:
-                    symbol = symbol + symbol_char
-                    continue
-        elif char == "{":
-            symbol = symbol + char
-            while 1:
-                symbol_char = file.read(1)
-                if symbol_char == "}":
-                    symbol = symbol + symbol_char
-                    return Enum_classes.Token.Symbol, symbol
-                else:
-                    symbol = symbol + symbol_char
-                    continue
-        elif char == "(":
-            symbol = symbol + char
-            while 1:
-                symbol_char = file.read(1)
-                if symbol_char == ")":
-                    symbol = symbol + symbol_char
-                    return Enum_classes.Token.Symbol, symbol
-                else:
-                    symbol = symbol + symbol_char
-                    continue
+                    return Enum_classes.Token.Symbol, char
 
         elif re.match(whitespace_pattern, char):
             return
@@ -329,11 +300,14 @@ def error_massage_table():
 
 
 if __name__ == '__main__':
-    scanner()
+    # scanner()
     # # whitespace_pattern=re.compile("^[ \n\r\t\v\f]$")
-    # w = " "
+    w = "[]"
     # x = "q"
     # # re.match(pattern, w)
     # print(ord(w))
-    # if re.match(whitespace_pattern, w):
-    #     print("**")
+
+    symbol_pattern = re.compile("^[;:,+\-*<=/{}()\[\]]$")  # ==
+
+    if re.match(symbol_pattern, w):
+        print("**")

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Enum_classes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler_phase1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler_phase1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="add scanner code to read char by char from file and recognize the token">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enum_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/Enum_classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +60,14 @@
       <option name="presentableId" value="Default" />
       <updated>1668666226320</updated>
     </task>
+    <task id="LOCAL-00001" summary="add scanner code to read char by char from file and recognize the token">
+      <created>1668672673882</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668672673882</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -74,5 +80,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add scanner code to read char by char from file and recognize the token" />
+    <option name="LAST_COMMIT_MESSAGE" value="add scanner code to read char by char from file and recognize the token" />
   </component>
 </project>

@@ -1,7 +1,7 @@
 import enum
 
 
-class Token(enum):
+class Token:
     Invalid = 'Invalid'
     EndOfFile = 'EOF'
     Number = 'NUM'
