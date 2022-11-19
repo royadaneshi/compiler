@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="get_next_token and error_massage_table and symbol table are completed.">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler_phase1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler_phase1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="complete version">
+      <change afterPath="$PROJECT_DIR$/input2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tokens.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lexical_errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lexical_errors.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symbol_table.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol_table.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +69,7 @@
       <updated>1668666226320</updated>
       <workItem from="1668841336589" duration="1048000" />
       <workItem from="1668872856867" duration="99000" />
+      <workItem from="1668872967665" duration="1406000" />
     </task>
     <task id="LOCAL-00001" summary="add scanner code to read char by char from file and recognize the token">
       <created>1668672673882</created>
@@ -124,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668692833415</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="complete version">
+      <created>1668873067713</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668873067713</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,14 +157,15 @@
     <MESSAGE value="complete finding token and making error table and symbol table" />
     <MESSAGE value="debug get token" />
     <MESSAGE value="get_next_token and error_massage_table and symbol table are completed." />
-    <option name="LAST_COMMIT_MESSAGE" value="get_next_token and error_massage_table and symbol table are completed." />
+    <MESSAGE value="complete version" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>201</line>
+          <line>206</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

@@ -10,3 +10,8 @@ no  lexeme
 9   case
 10   return
 11   endif
+12  a
+13  e
+14  main
+15  cde
+16  b

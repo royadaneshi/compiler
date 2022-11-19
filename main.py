@@ -198,6 +198,11 @@ def symbol_table(no, lexeme):  # if symbol is new then add it to the table whit 
     symbol_table_file.close()
 
 
+def scanner():  # scanner
+    "TO DO (position and line_position of cursor should be got here from output of the get_nex_token function and again send it to this \
+    function while calling that, like the example test in the main) "
+
+
 def initialize():
     lexical_errors_file1 = open("lexical_errors.txt", "w+")
     lexical_errors_file1.write("There is no lexical error.")
