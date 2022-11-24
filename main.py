@@ -6,7 +6,7 @@ import Enum_classes
 # this function reads from file character by character and finds token
 # This functions returns current_position_of_cursor,Token_Type,Lexeme,current_line_position_of_cursor
 def get_next_token(current_position, line_position):
-    file = open('input2.txt', 'r')
+    file = open('input.txt', 'r')
     file.seek(0, os.SEEK_END)
     end_of_file = file.tell()
     file.seek(current_position)
@@ -155,21 +155,21 @@ def error_massage_table(line_number, token_until_here, error_massage):
 
     if content_file == "There is no lexical error.":
         lexical_errors_file = open("lexical_errors.txt", "w")
-        lexical_errors_file.write("lineno  Error Message")
+
 
         if(error_massage == Enum_classes.ErrorMsg.Invalid_input):
             lexical_errors_file.write(
-            "\n" + str(line_number) + "       (" +token_until_here + ", " + error_massage + ")")
+              str(line_number) + "       (" +token_until_here + ", " + error_massage + ")")
 
         if (error_massage == Enum_classes.ErrorMsg.Invalid_number):
             lexical_errors_file.write(
-                "\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
+                 str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
         if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
             lexical_errors_file.write(
-                "\n" + str(line_number) + "       (" + token_until_here[0:7] + "..., " + error_massage + ")")
+                 str(line_number) + "       (" + token_until_here[0:7] + "..., " + error_massage + ")")
         if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
             lexical_errors_file.write(
-                "\n" + str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
+                 str(line_number) + "       (" + token_until_here + ", " + error_massage + ")")
     else:
         lexical_errors_file = open("lexical_errors.txt", "a")
         if(error_massage == Enum_classes.ErrorMsg.Invalid_input):
@@ -198,47 +198,47 @@ def symbol_table(no, lexeme):  # if symbol is new then add it to the table whit 
     symbol_table_file.close()
 
 
-def scanner():  # scanner
-    "TO DO (position and line_position of cursor should be got here from output of the get_nex_token function and again send it to this \
-    function while calling that, like the example test in the main) "
-
-
 def initialize():
     lexical_errors_file1 = open("lexical_errors.txt", "w+")
     lexical_errors_file1.write("There is no lexical error.")
     lexical_errors_file1.close()
 
     symbol_table_file1 = open("symbol_table.txt", "w+")
-    symbol_table_file1.write("no  lexeme")
-    symbol_table_file1.write("\n1   if")
-    symbol_table_file1.write("\n2   else")
-    symbol_table_file1.write("\n3   void")
-    symbol_table_file1.write("\n4   int")
-    symbol_table_file1.write("\n5   while")
-    symbol_table_file1.write("\n6   break")
-    symbol_table_file1.write("\n7   switch")
-    symbol_table_file1.write("\n8   default")
-    symbol_table_file1.write("\n9   case")
-    symbol_table_file1.write("\n10   return")
-    symbol_table_file1.write("\n11   endif")
+    symbol_table_file1.write("1.   if")
+    symbol_table_file1.write("\n2.   else")
+    symbol_table_file1.write("\n3.   void")
+    symbol_table_file1.write("\n4.   int")
+    symbol_table_file1.write("\n5.   while")
+    symbol_table_file1.write("\n6.   break")
+    symbol_table_file1.write("\n7.   switch")
+    symbol_table_file1.write("\n8.   default")
+    symbol_table_file1.write("\n9.   case")
+    symbol_table_file1.write("\n10.   return")
+    symbol_table_file1.write("\n11.   endif")
     symbol_table_file1.close()
+
     tokens_table_file = open("tokens.txt", "w+")
-    tokens_table_file.write("lineno  Recognized Tokens")
     tokens_table_file.close()
+
 def printing(to):
     global current_line
     if to[1] != "":
         if(to[3]!=current_line):
-            tokens_table_file = open("tokens.txt", "a")
-            tokens_table_file.write("\n" + str(to[3]) + "    " +"(" +to[1]+ ", "+ to[2]+") ")
-            current_line=current_line+1
-            tokens_table_file.close()
+            if(to[3]==1):
+                tokens_table_file = open("tokens.txt", "a")
+                tokens_table_file.write(str(to[3]) + "    " + "(" + to[1] + ", " + to[2] + ") ")
+                current_line = current_line + 1
+                tokens_table_file.close()
+            else:
+                tokens_table_file = open("tokens.txt", "a")
+                tokens_table_file.write("\n" + str(to[3]) + "    " +"(" +to[1]+ ", "+ to[2]+") ")
+                current_line=current_line+1
+                tokens_table_file.close()
         else:
             tokens_table_file = open("tokens.txt", "a")
             tokens_table_file.write("(" +to[1]+ ", "+ to[2]+") ")
             tokens_table_file.close()
-        print(to)
-        print("----------------------------------------")
+
 if __name__ == '__main__':
     " DO not change these lines"
     list_1 = ["if","else","void","int","while","break","switch","default","case","return","endif"]
