@@ -1,8 +1,1 @@
-lineno  Error Message
-1       (3d, Invalid number)
-2       (3333!, Invalid input)
-9       (3d, Invalid number)
-11       (cd!, Invalid input)
-13       (*/, Unmatched comment)
-16       (@, Invalid input)
-21       (/* comm..., Unclosed comment)
+There is no lexical error.
