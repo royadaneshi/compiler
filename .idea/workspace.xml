@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="other files">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler_phase1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler_phase1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error of symbol : after default">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lexical_errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lexical_errors.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symbol_table.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol_table.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tokens.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +140,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668874397737</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="resolve error of symbol : after default">
+      <created>1669363353242</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669363353242</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,22 +172,7 @@
     <MESSAGE value="get_next_token and error_massage_table and symbol table are completed." />
     <MESSAGE value="complete version" />
     <MESSAGE value="other files" />
-    <option name="LAST_COMMIT_MESSAGE" value="other files" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>189</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>7</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="resolve error of symbol : after default" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve error of symbol : after default" />
   </component>
 </project>

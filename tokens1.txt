@@ -1,3 +1,4 @@
+
 3    (KEYWORD, void) (ID, main) (SYMBOL, () (KEYWORD, void) (SYMBOL, )) (SYMBOL, {) 
 4    (KEYWORD, int) (ID, i) (SYMBOL, =) (NUM, 0) (SYMBOL, ;) 
 5    (KEYWORD, while) (SYMBOL, () (ID, i) (SYMBOL, <) (NUM, 10) (SYMBOL, )) (SYMBOL, {) 

@@ -1,6 +1,7 @@
 import re
 import os
 import Enum_classes
+import fileinput
 
 
 # this function reads from file character by character and finds token
@@ -216,26 +217,29 @@ def initialize():
     symbol_table_file1.write("\n11.   endif")
     symbol_table_file1.close()
 
-    tokens_table_file = open("tokens.txt", "w+")
+    tokens_table_file = open("tokens1.txt", "w+")
     tokens_table_file.close()
 
 
 def printing(to):
     global current_line
     if to[1] != "":
-        if (to[3] != current_line):
-            if (to[3] == 1):
-                tokens_table_file = open("tokens.txt", "a")
+        tokens_table_file = open("tokens1.txt", "r")
+        content = str(tokens_table_file.read())
+        value = '\n' + str(to[3])
+        if to[3] != current_line and not value in content:
+            if to[3] == 1:
+                tokens_table_file = open("tokens1.txt", "a")
                 tokens_table_file.write(str(to[3]) + "    " + "(" + to[1] + ", " + to[2] + ") ")
                 current_line = current_line + 1
                 tokens_table_file.close()
             else:
-                tokens_table_file = open("tokens.txt", "a")
+                tokens_table_file = open("tokens1.txt", "a")
                 tokens_table_file.write("\n" + str(to[3]) + "    " + "(" + to[1] + ", " + to[2] + ") ")
                 current_line = current_line + 1
                 tokens_table_file.close()
         else:
-            tokens_table_file = open("tokens.txt", "a")
+            tokens_table_file = open("tokens1.txt", "a")
             tokens_table_file.write("(" + to[1] + ", " + to[2] + ") ")
             tokens_table_file.close()
 
@@ -257,3 +261,9 @@ if __name__ == '__main__':
         if ans[1] == "EOF":
             break
         printing(ans)
+
+    # for witting in tokens.txt without any empty line at top of the file
+    with open('tokens1.txt', 'r') as infile, open('tokens.txt', 'w') as outfile:
+        for line in infile:
+            if not line.strip(): continue  # skip the empty line
+            outfile.write(line)  # non-empty line. Write it to output
