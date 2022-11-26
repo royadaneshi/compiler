@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error line number of lexical error of testcase11">
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error of space in end of lexical_errors">
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lexical_errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lexical_errors.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -178,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669471468784</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="resolve error of space in end of lexical_errors">
+      <created>1669471824715</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669471824716</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,6 +214,7 @@
     <MESSAGE value="complete" />
     <MESSAGE value="resolve error reorganization of testcase12" />
     <MESSAGE value="resolve error line number of lexical error of testcase11" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve error line number of lexical error of testcase11" />
+    <MESSAGE value="resolve error of space in end of lexical_errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve error of space in end of lexical_errors" />
   </component>
 </project>
