@@ -94,7 +94,7 @@ def get_next_token(current_position, line_position):
             if next_char == "=":
                 return file.tell(), Enum_classes.Token.Symbol, "==", line_position
             elif re.match(invalids_latter, next_char):
-                error_input = char + next_char
+                error_input = comment + next_char
                 error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
                 return file.tell(), "", "", line_position
             else:
@@ -132,7 +132,7 @@ def get_next_token(current_position, line_position):
                     else:
                         continue
             elif re.match(invalids_latter, next_char):
-                error_input = number + next_char
+                error_input = comment
                 error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
                 return file.tell(), "", "", line_position
             else:
@@ -144,7 +144,7 @@ def get_next_token(current_position, line_position):
                 error_massage_table(line_position, "*/", Enum_classes.ErrorMsg.Unmatched_comment)
                 return file.tell(), "", "", line_position
             elif re.match(invalids_latter, next_char):
-                error_input = number + next_char
+                error_input = comment + next_char
                 error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
                 return file.tell(), "", "", line_position
             else:
