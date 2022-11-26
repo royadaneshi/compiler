@@ -110,6 +110,7 @@ def get_next_token(current_position, line_position):
                     comment = comment + symbol_char
                     if ord(symbol_char) == 10:
                         line_position = line_position + 1
+
                     if symbol_char == "*":
                         symbol_char2 = file.read(1)
                         if symbol_char2 == "/":
