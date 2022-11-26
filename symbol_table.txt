@@ -11,9 +11,5 @@
 11.	endif
 12.	f
 13.	a
-14.	g
+14.	main
 15.	b
-16.	output
-17.	m
-18.	n
-19.	main

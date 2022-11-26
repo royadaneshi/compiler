@@ -93,6 +93,10 @@ def get_next_token(current_position, line_position):
             next_char = file.read(1)
             if next_char == "=":
                 return file.tell(), Enum_classes.Token.Symbol, "==", line_position
+            elif re.match(invalids_latter, next_char):
+                error_input = number + next_char
+                error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
+                return file.tell(), "", "", line_position
             else:
                 file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
                 return file.tell(), Enum_classes.Token.Symbol, "=", line_position
@@ -126,6 +130,10 @@ def get_next_token(current_position, line_position):
                         return file.tell(), "", "", line_position
                     else:
                         continue
+            elif re.match(invalids_latter, next_char):
+                error_input = number + next_char
+                error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
+                return file.tell(), "", "", line_position
             else:
                 file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
                 return file.tell(), Enum_classes.Token.Symbol, char, line_position
@@ -133,6 +141,10 @@ def get_next_token(current_position, line_position):
             next_char = file.read(1)
             if next_char == "/":
                 error_massage_table(line_position, "*/", Enum_classes.ErrorMsg.Unmatched_comment)
+                return file.tell(), "", "", line_position
+            elif re.match(invalids_latter, next_char):
+                error_input = number + next_char
+                error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
                 return file.tell(), "", "", line_position
             else:
                 file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
