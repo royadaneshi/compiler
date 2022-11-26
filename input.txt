@@ -1,16 +1,23 @@
-int main(){
-	while (arr[2milk]> 2){
-		x = 23apple;
-		mk3 = x + 1;
-		if mk3 == 52 :
-			b =# 32;
-			return 2;
-		break;
-	}
-	this = 2;
-	return;;!
+int func (int a, int b){
+	int a = 10;
+int b = 100;
+
+outpt(1000);
+
+if(a > 1000){
+return a;
 }
-# end of the code
-/* end of end of the code
-# hmmmmmm
-@#$#%%$*/
+
+while (b < 10000){
+b = b * a;
+}
+
+return b;
+
+}
+
+void main (void){
+int var = f(10, 5);
+return 0;
+
+}

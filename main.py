@@ -173,19 +173,19 @@ def error_massage_table(line_number, token_until_here, error_massage):
 
         if error_massage == Enum_classes.ErrorMsg.Invalid_input:
             lexical_errors_file.write(
-                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ") ")
             error_line = line_number
         if error_massage == Enum_classes.ErrorMsg.Invalid_number:
             lexical_errors_file.write(
-                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ") ")
             error_line = line_number
         if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
             lexical_errors_file.write(
-                str(line_number) + "." + "\t" + "(" + token_until_here[0:7] + "..., " + error_massage + ")")
+                str(line_number) + "." + "\t" + "(" + token_until_here[0:7] + "..., " + error_massage + ") ")
             error_line = line_number
         if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
             lexical_errors_file.write(
-                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ") ")
             error_line = line_number
     else:
 
@@ -193,33 +193,33 @@ def error_massage_table(line_number, token_until_here, error_massage):
             lexical_errors_file = open("lexical_errors.txt", "a")
             if error_massage == Enum_classes.ErrorMsg.Invalid_input:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here + ", " + error_massage + ")")
+                    " " + "(" + token_until_here + ", " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Invalid_number:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here + ", " + error_massage + ")")
+                    " " + "(" + token_until_here + ", " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here[0:7] + "..., " + error_massage + ")")
+                    " " + "(" + token_until_here[0:7] + "..., " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here + ", " + error_massage + ")")
+                    " " + "(" + token_until_here + ", " + error_massage + ") ")
             lexical_errors_file.close()
         else:
             lexical_errors_file = open("lexical_errors.txt", "a")
             error_line = line_number
             if error_massage == Enum_classes.ErrorMsg.Invalid_input:
                 lexical_errors_file.write(
-                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ") ")
 
             if error_massage == Enum_classes.ErrorMsg.Invalid_number:
                 lexical_errors_file.write(
-                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
                 lexical_errors_file.write(
-                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here[0:7] + "..., " + error_massage + ")")
+                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here[0:7] + "..., " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
                 lexical_errors_file.write(
-                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+                    "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ") ")
             lexical_errors_file.close()
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error reorganization of testcase12">
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error line number of lexical error of testcase11">
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lexical_errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lexical_errors.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -164,7 +164,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669470110127</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="resolve error line number of lexical error of testcase11">
+      <created>1669471291481</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1669471291481</updated>
+    </task>
+    <task id="LOCAL-00015" summary="resolve error line number of lexical error of testcase11">
+      <created>1669471468784</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669471468784</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +206,7 @@
     <MESSAGE value="resolve error of symbol : after default" />
     <MESSAGE value="complete" />
     <MESSAGE value="resolve error reorganization of testcase12" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve error reorganization of testcase12" />
+    <MESSAGE value="resolve error line number of lexical error of testcase11" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve error line number of lexical error of testcase11" />
   </component>
 </project>
