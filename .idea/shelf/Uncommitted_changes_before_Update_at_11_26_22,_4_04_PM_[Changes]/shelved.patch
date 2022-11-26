@@ -1,0 +1,300 @@
+Index: tokens.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>3    (KEYWORD, void) (ID, main) (SYMBOL, () (KEYWORD, void) (SYMBOL, )) (SYMBOL, {) \n4    (KEYWORD, int) (ID, i) (SYMBOL, =) (NUM, 0) (SYMBOL, ;) \n5    (KEYWORD, while) (SYMBOL, () (ID, i) (SYMBOL, <) (NUM, 10) (SYMBOL, )) (SYMBOL, {) \n6    (ID, i) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 1) (SYMBOL, ;) \n7    (SYMBOL, }) \n8    (KEYWORD, int) (ID, j) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 100) (SYMBOL, ;) \n9    (KEYWORD, int) (ID, out) (SYMBOL, =) (ID, i) (SYMBOL, +) (ID, j) (SYMBOL, ;) \n10    (ID, output) (SYMBOL, () (ID, out) (SYMBOL, )) (SYMBOL, ;) 
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tokens.txt b/tokens.txt
+--- a/tokens.txt	(revision 587a33d33f8f5995cb1df080b7cdaee6ff6c8609)
++++ b/tokens.txt	(date 1669371142291)
+@@ -1,8 +1,9 @@
+-3    (KEYWORD, void) (ID, main) (SYMBOL, () (KEYWORD, void) (SYMBOL, )) (SYMBOL, {) 
+-4    (KEYWORD, int) (ID, i) (SYMBOL, =) (NUM, 0) (SYMBOL, ;) 
+-5    (KEYWORD, while) (SYMBOL, () (ID, i) (SYMBOL, <) (NUM, 10) (SYMBOL, )) (SYMBOL, {) 
+-6    (ID, i) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 1) (SYMBOL, ;) 
+-7    (SYMBOL, }) 
+-8    (KEYWORD, int) (ID, j) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 100) (SYMBOL, ;) 
+-9    (KEYWORD, int) (ID, out) (SYMBOL, =) (ID, i) (SYMBOL, +) (ID, j) (SYMBOL, ;) 
+-10    (ID, output) (SYMBOL, () (ID, out) (SYMBOL, )) (SYMBOL, ;) 
+\ No newline at end of file
++3.     (KEYWORD, void) (ID, main) (SYMBOL, () (KEYWORD, void) (SYMBOL, )) (SYMBOL, {) 
++4.     (KEYWORD, int) (ID, i) (SYMBOL, =) (NUM, 0) (SYMBOL, ;) 
++5.     (KEYWORD, while) (SYMBOL, () (ID, i) (SYMBOL, <) (NUM, 10) (SYMBOL, )) (SYMBOL, {) 
++6.     (ID, i) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 1) (SYMBOL, ;) 
++7.     (SYMBOL, }) 
++8.     (KEYWORD, int) (ID, j) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 100) (SYMBOL, ;) 
++9.     (KEYWORD, int) (ID, out) (SYMBOL, =) (ID, i) (SYMBOL, +) (ID, j) (SYMBOL, ;) 
++10.     (ID, output) (SYMBOL, () (ID, out) (SYMBOL, )) (SYMBOL, ;) 
++12.     (SYMBOL, }) 
+\ No newline at end of file
+Index: symbol_table.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>1.   if\n2.   else\n3.   void\n4.   int\n5.   while\n6.   break\n7.   switch\n8.   default\n9.   case\n10.   return\n11.   endif\n12  main\n13  i\n14  j\n15  out\n16  output
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/symbol_table.txt b/symbol_table.txt
+--- a/symbol_table.txt	(revision 587a33d33f8f5995cb1df080b7cdaee6ff6c8609)
++++ b/symbol_table.txt	(date 1669371580940)
+@@ -1,16 +1,11 @@
+-1.   if
+-2.   else
+-3.   void
+-4.   int
+-5.   while
+-6.   break
+-7.   switch
+-8.   default
+-9.   case
+-10.   return
+-11.   endif
+-12  main
+-13  i
+-14  j
+-15  out
+-16  output
+\ No newline at end of file
++ 1.      if
++ 2.    else
++ 3.    void
++ 4.     int
++ 5.   while
++ 6.   break
++ 7.  switch
++ 8. default
++ 9.    case
++10.  return
++11.   endif
+\ No newline at end of file
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import re\nimport os\nimport Enum_classes\nimport fileinput\n\n\n# this function reads from file character by character and finds token\n# This functions returns current_position_of_cursor,Token_Type,Lexeme,current_line_position_of_cursor\ndef get_next_token(current_position, line_position):\n    file = open('input.txt', 'r')\n    file.seek(0, os.SEEK_END)\n    end_of_file = file.tell()\n    file.seek(current_position)\n    number = \"\"\n    identifier = \"\"\n    keyword = \"\"\n    symbol = \"\"\n    comment = \"\"\n    number_pattern = re.compile(\"^[0-9]$\")\n    identifier_pattern1 = re.compile(\"^[A-Za-z]$\")\n    identifier_pattern2 = re.compile(\"^[A-Za-z0-9]$\")\n    symbol_pattern = re.compile(\"^[;:,+\\-*<=/{}()\\[\\]]$\")\n    whitespace_pattern = re.compile(\"^[ \\n\\r\\t\\v\\f]$\")\n    invalids_latter = re.compile(\"^[@!$_~]$\")\n    # read character by character\n    char = file.read(1)\n    if not char or file.tell() == end_of_file:  # end of file\n        position = file.tell()\n        file.close()\n        return position, \"EOF\", \"\", line_position\n    # match number\n    elif re.match(number_pattern, char):\n        number = number + char\n        while 1:\n            num_char = file.read(1)\n            if re.match(number_pattern, num_char):\n                number = number + num_char\n            else:\n                if re.match(identifier_pattern1, num_char):\n                    error_input = number + num_char\n                    error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_number)\n                    return file.tell(), \"\", \"\", line_position\n                elif re.match(invalids_latter, num_char):\n                    error_input = number + num_char\n                    error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)\n                    return file.tell(), \"\", \"\", line_position\n                else:\n                    file.seek(file.tell() - 1)  # move file pointer 1 char behind current position\n                    return file.tell(), Enum_classes.Token.Number, number, line_position\n    # match identifier\n    elif re.match(identifier_pattern1, char):\n        identifier = identifier + char\n        while 1:\n            identifier_char = file.read(1)\n            if re.match(identifier_pattern2, identifier_char):\n                identifier = identifier + identifier_char\n            # elif re.match(invalids_latter, identifier_char):\n            #     error_input = identifier + identifier_char\n            #     error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)\n            #     return file.tell(), \"\", \"\", line_position\n            else:\n                file.seek(file.tell() - 1)  # move file pointer 1 char behind current position\n                # match keywords\n                if identifier == \"if\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"if\", line_position\n                elif identifier == \"else\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"else\", line_position\n                elif identifier == \"void\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"void\", line_position\n                elif identifier == \"int\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"int\", line_position\n                elif identifier == \"while\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"while\", line_position\n                elif identifier == \"break\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"break\", line_position\n                elif identifier == \"switch\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"switch\", line_position\n                elif identifier == \"default\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"default\", line_position\n                elif identifier == \"case\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"case\", line_position\n                elif identifier == \"return\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"return\", line_position\n                elif identifier == \"endif\":\n                    return file.tell(), Enum_classes.Token.Keyword, \"endif\", line_position\n                symbol_table(t, identifier)\n                return file.tell(), Enum_classes.Token.Identifier, identifier, line_position\n    # match symbol\n    elif re.match(symbol_pattern, char):\n        # symbol=symbol+char\n        comment = comment + char\n        if char == \"=\":\n            next_char = file.read(1)\n            if next_char == \"=\":\n                return file.tell(), Enum_classes.Token.Symbol, \"==\", line_position\n            else:\n                file.seek(file.tell() - 1)  # move file pointer 1 char behind current position\n                return file.tell(), Enum_classes.Token.Symbol, \"=\", line_position\n        elif char == \"/\":  # match comment\n            next_char = file.read(1)\n            comment = comment + next_char\n            if next_char == \"*\":\n                while 1:\n                    symbol_char = file.read(1)\n                    comment = comment + symbol_char\n                    if ord(symbol_char) == 10:\n                        line_position = line_position + 1\n                    if symbol_char == \"*\":\n                        symbol_char2 = file.read(1)\n                        if symbol_char2 == \"/\":\n                            return file.tell(), \"\", \"\", line_position\n                        continue\n                    elif file.tell() == end_of_file:\n                        error_massage_table(line_position, comment, Enum_classes.ErrorMsg.Unclosed_comment)\n                        return file.tell(), \"\", \"\", line_position\n            elif next_char == \"/\":  # match comment\n                while 1:\n                    symbol_char = file.read(1)\n                    comment = comment + symbol_char\n                    if ord(symbol_char) == 10:\n                        line_position = line_position + 1  # it shows line position one more than real, when immediately EOF appears after it,but totaly works correct\n                        return file.tell(), \"\", \"\", line_position\n                    if file.tell() == end_of_file:  # end of file\n                        file.close()\n                        error_massage_table(line_position, comment, Enum_classes.ErrorMsg.Unclosed_comment)\n                        return file.tell(), \"\", \"\", line_position\n                    else:\n                        continue\n            else:\n                file.seek(file.tell() - 1)  # move file pointer 1 char behind current position\n                return file.tell(), Enum_classes.Token.Symbol, char, line_position\n        elif char == \"*\":  # match comment\n            next_char = file.read(1)\n            if next_char == \"/\":\n                error_massage_table(line_position, \"*/\", Enum_classes.ErrorMsg.Unmatched_comment)\n                return file.tell(), \"\", \"\", line_position\n            else:\n                file.seek(file.tell() - 1)  # move file pointer 1 char behind current position\n                return file.tell(), Enum_classes.Token.Symbol, char, line_position\n        else:\n            return file.tell(), Enum_classes.Token.Symbol, char, line_position\n\n    elif re.match(whitespace_pattern, char):\n        if ord(char) == 10:\n            line_position = line_position + 1\n        return file.tell(), \"\", \"\", line_position\n    else:\n        error_massage_table(line_position, char, Enum_classes.ErrorMsg.Invalid_input)  # did not match any pattern\n        return file.tell(), \"\", \"\", line_position\n\n\ndef error_massage_table(line_number, token_until_here, error_massage):\n    lexical_errors_file = open(\"lexical_errors.txt\", \"r\")\n    content_file = lexical_errors_file.read()\n    lexical_errors_file.close()\n\n    if content_file == \"There is no lexical error.\":\n        lexical_errors_file = open(\"lexical_errors.txt\", \"w\")\n\n        if error_massage == Enum_classes.ErrorMsg.Invalid_input:\n            lexical_errors_file.write(\n                str(line_number) + \"       (\" + token_until_here + \", \" + error_massage + \")\")\n\n        if error_massage == Enum_classes.ErrorMsg.Invalid_number:\n            lexical_errors_file.write(\n                str(line_number) + \"       (\" + token_until_here + \", \" + error_massage + \")\")\n        if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:\n            lexical_errors_file.write(\n                str(line_number) + \"       (\" + token_until_here[0:7] + \"..., \" + error_massage + \")\")\n        if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:\n            lexical_errors_file.write(\n                str(line_number) + \"       (\" + token_until_here + \", \" + error_massage + \")\")\n    else:\n        lexical_errors_file = open(\"lexical_errors.txt\", \"a\")\n        if error_massage == Enum_classes.ErrorMsg.Invalid_input:\n            lexical_errors_file.write(\n                \"\\n\" + str(line_number) + \"       (\" + token_until_here + \", \" + error_massage + \")\")\n\n        if error_massage == Enum_classes.ErrorMsg.Invalid_number:\n            lexical_errors_file.write(\n                \"\\n\" + str(line_number) + \"       (\" + token_until_here + \", \" + error_massage + \")\")\n        if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:\n            lexical_errors_file.write(\n                \"\\n\" + str(line_number) + \"       (\" + token_until_here[0:7] + \"..., \" + error_massage + \")\")\n        if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:\n            lexical_errors_file.write(\n                \"\\n\" + str(line_number) + \"       (\" + token_until_here + \", \" + error_massage + \")\")\n    lexical_errors_file.close()\n\n\ndef symbol_table(no, lexeme):  # if symbol is new then add it to the table whit appropriate line number else don't\n    symbol_table_file = open(\"symbol_table.txt\", \"a\")\n    if list_1.count(lexeme) == 0:\n        list_1.append(lexeme)\n        symbol_table_file.write(\"\\n\" + str(no) + \"  \" + lexeme)\n        global t\n        t = no + 1\n    symbol_table_file.close()\n\n\ndef initialize():\n    lexical_errors_file1 = open(\"lexical_errors.txt\", \"w+\")\n    lexical_errors_file1.write(\"There is no lexical error.\")\n    lexical_errors_file1.close()\n\n    symbol_table_file1 = open(\"symbol_table.txt\", \"w+\")\n    symbol_table_file1.write(\"1.   if\")\n    symbol_table_file1.write(\"\\n2.   else\")\n    symbol_table_file1.write(\"\\n3.   void\")\n    symbol_table_file1.write(\"\\n4.   int\")\n    symbol_table_file1.write(\"\\n5.   while\")\n    symbol_table_file1.write(\"\\n6.   break\")\n    symbol_table_file1.write(\"\\n7.   switch\")\n    symbol_table_file1.write(\"\\n8.   default\")\n    symbol_table_file1.write(\"\\n9.   case\")\n    symbol_table_file1.write(\"\\n10.   return\")\n    symbol_table_file1.write(\"\\n11.   endif\")\n    symbol_table_file1.close()\n\n    tokens_table_file = open(\"tokens1.txt\", \"w+\")\n    tokens_table_file.close()\n\n\ndef printing(to):\n    global current_line\n    if to[1] != \"\":\n        tokens_table_file = open(\"tokens1.txt\", \"r\")\n        content = str(tokens_table_file.read())\n        value = '\\n' + str(to[3])\n        if to[3] != current_line and not value in content:\n            if to[3] == 1:\n                tokens_table_file = open(\"tokens1.txt\", \"a\")\n                tokens_table_file.write(str(to[3]) + \"    \" + \"(\" + to[1] + \", \" + to[2] + \") \")\n                current_line = current_line + 1\n                tokens_table_file.close()\n            else:\n                tokens_table_file = open(\"tokens1.txt\", \"a\")\n                tokens_table_file.write(\"\\n\" + str(to[3]) + \"    \" + \"(\" + to[1] + \", \" + to[2] + \") \")\n                current_line = current_line + 1\n                tokens_table_file.close()\n        else:\n            tokens_table_file = open(\"tokens1.txt\", \"a\")\n            tokens_table_file.write(\"(\" + to[1] + \", \" + to[2] + \") \")\n            tokens_table_file.close()\n\n\nif __name__ == '__main__':\n    \" DO not change these lines\"\n    list_1 = [\"if\", \"else\", \"void\", \"int\", \"while\", \"break\", \"switch\", \"default\", \"case\", \"return\", \"endif\"]\n    initialize()\n    cursor_position = 0\n    cursor_line_position = 1\n    \"\"\n    t = 12\n    current_line = 0\n    \" test get_token function :\"\n    while 1:\n        ans = get_next_token(cursor_position, cursor_line_position)\n        cursor_position = ans[0]\n        cursor_line_position = ans[3]\n        if ans[1] == \"EOF\":\n            break\n        printing(ans)\n\n    # for witting in tokens.txt without any empty line at top of the file\n    with open('tokens1.txt', 'r') as infile, open('tokens.txt', 'w') as outfile:\n        for line in infile:\n            if not line.strip(): continue  # skip the empty line\n            outfile.write(line)  # non-empty line. Write it to output\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 587a33d33f8f5995cb1df080b7cdaee6ff6c8609)
++++ b/main.py	(date 1669371580680)
+@@ -1,5 +1,8 @@
+ import re
+ import os
++
++import pandas as pd
++
+ import Enum_classes
+ import fileinput
+ 
+@@ -24,7 +27,7 @@
+     invalids_latter = re.compile("^[@!$_~]$")
+     # read character by character
+     char = file.read(1)
+-    if not char or file.tell() == end_of_file:  # end of file
++    if not char and file.tell() == end_of_file:  # end of file
+         position = file.tell()
+         file.close()
+         return position, "EOF", "", line_position
+@@ -54,10 +57,6 @@
+             identifier_char = file.read(1)
+             if re.match(identifier_pattern2, identifier_char):
+                 identifier = identifier + identifier_char
+-            # elif re.match(invalids_latter, identifier_char):
+-            #     error_input = identifier + identifier_char
+-            #     error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
+-            #     return file.tell(), "", "", line_position
+             else:
+                 file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
+                 # match keywords
+@@ -189,12 +188,23 @@
+ 
+ 
+ def symbol_table(no, lexeme):  # if symbol is new then add it to the table whit appropriate line number else don't
+-    symbol_table_file = open("symbol_table.txt", "a")
++    symbol_table_file = open("symbol_table.txt", "r")
++    print(symbol_table_file.read())
++    content = dict(symbol_table_file.read())
++
++    dictionary = {"no": [], "lexeme": []}
++
+     if list_1.count(lexeme) == 0:
+         list_1.append(lexeme)
+-        symbol_table_file.write("\n" + str(no) + "  " + lexeme)
++        content[0].append(str(no) + ".")
++        content[1].append(lexeme)
++        # symbol_table_file.write("\n" + str(no) + "  " + lexeme)
++        table_of_data = pd.DataFrame(data=dictionary)
++        symbol_table_file.write(table_of_data.to_string(index=False, header=False))
++        symbol_table_file.close()
+         global t
+         t = no + 1
++
+     symbol_table_file.close()
+ 
+ 
+@@ -204,17 +214,33 @@
+     lexical_errors_file1.close()
+ 
+     symbol_table_file1 = open("symbol_table.txt", "w+")
+-    symbol_table_file1.write("1.   if")
+-    symbol_table_file1.write("\n2.   else")
+-    symbol_table_file1.write("\n3.   void")
+-    symbol_table_file1.write("\n4.   int")
+-    symbol_table_file1.write("\n5.   while")
+-    symbol_table_file1.write("\n6.   break")
+-    symbol_table_file1.write("\n7.   switch")
+-    symbol_table_file1.write("\n8.   default")
+-    symbol_table_file1.write("\n9.   case")
+-    symbol_table_file1.write("\n10.   return")
+-    symbol_table_file1.write("\n11.   endif")
++
++    dictionary = {"no": [], "lexeme": []}
++    dictionary["no"].append("1.")
++    dictionary["lexeme"].append("if")
++    dictionary["no"].append("2.")
++    dictionary["lexeme"].append("else")
++    dictionary["no"].append("3.")
++    dictionary["lexeme"].append("void")
++    dictionary["no"].append("4.")
++    dictionary["lexeme"].append("int")
++    dictionary["no"].append("5.")
++    dictionary["lexeme"].append("while")
++    dictionary["no"].append("6.")
++    dictionary["lexeme"].append("break")
++    dictionary["no"].append("7.")
++    dictionary["lexeme"].append("switch")
++    dictionary["no"].append("8.")
++    dictionary["lexeme"].append("default")
++    dictionary["no"].append("9.")
++    dictionary["lexeme"].append("case")
++    dictionary["no"].append("10.")
++    dictionary["lexeme"].append("return")
++    dictionary["no"].append("11.")
++    dictionary["lexeme"].append("endif")
++
++    table_of_data = pd.DataFrame(data=dictionary)
++    symbol_table_file1.write(table_of_data.to_string(index=False, header=False))
+     symbol_table_file1.close()
+ 
+     tokens_table_file = open("tokens1.txt", "w+")
+@@ -227,15 +253,16 @@
+         tokens_table_file = open("tokens1.txt", "r")
+         content = str(tokens_table_file.read())
+         value = '\n' + str(to[3])
++
+         if to[3] != current_line and not value in content:
+             if to[3] == 1:
+                 tokens_table_file = open("tokens1.txt", "a")
+-                tokens_table_file.write(str(to[3]) + "    " + "(" + to[1] + ", " + to[2] + ") ")
++                tokens_table_file.write(str(to[3]) + ".     " + "(" + to[1] + ", " + to[2] + ") ")
+                 current_line = current_line + 1
+                 tokens_table_file.close()
+             else:
+                 tokens_table_file = open("tokens1.txt", "a")
+-                tokens_table_file.write("\n" + str(to[3]) + "    " + "(" + to[1] + ", " + to[2] + ") ")
++                tokens_table_file.write("\n" + str(to[3]) + ".     " + "(" + to[1] + ", " + to[2] + ") ")
+                 current_line = current_line + 1
+                 tokens_table_file.close()
+         else:
+Index: tokens1.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n3    (KEYWORD, void) (ID, main) (SYMBOL, () (KEYWORD, void) (SYMBOL, )) (SYMBOL, {) \n4    (KEYWORD, int) (ID, i) (SYMBOL, =) (NUM, 0) (SYMBOL, ;) \n5    (KEYWORD, while) (SYMBOL, () (ID, i) (SYMBOL, <) (NUM, 10) (SYMBOL, )) (SYMBOL, {) \n6    (ID, i) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 1) (SYMBOL, ;) \n7    (SYMBOL, }) \n8    (KEYWORD, int) (ID, j) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 100) (SYMBOL, ;) \n9    (KEYWORD, int) (ID, out) (SYMBOL, =) (ID, i) (SYMBOL, +) (ID, j) (SYMBOL, ;) \n10    (ID, output) (SYMBOL, () (ID, out) (SYMBOL, )) (SYMBOL, ;) 
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tokens1.txt b/tokens1.txt
+--- a/tokens1.txt	(revision 587a33d33f8f5995cb1df080b7cdaee6ff6c8609)
++++ b/tokens1.txt	(date 1669371580940)
+@@ -1,9 +1,2 @@
+ 
+-3    (KEYWORD, void) (ID, main) (SYMBOL, () (KEYWORD, void) (SYMBOL, )) (SYMBOL, {) 
+-4    (KEYWORD, int) (ID, i) (SYMBOL, =) (NUM, 0) (SYMBOL, ;) 
+-5    (KEYWORD, while) (SYMBOL, () (ID, i) (SYMBOL, <) (NUM, 10) (SYMBOL, )) (SYMBOL, {) 
+-6    (ID, i) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 1) (SYMBOL, ;) 
+-7    (SYMBOL, }) 
+-8    (KEYWORD, int) (ID, j) (SYMBOL, =) (ID, i) (SYMBOL, +) (NUM, 100) (SYMBOL, ;) 
+-9    (KEYWORD, int) (ID, out) (SYMBOL, =) (ID, i) (SYMBOL, +) (ID, j) (SYMBOL, ;) 
+-10    (ID, output) (SYMBOL, () (ID, out) (SYMBOL, )) (SYMBOL, ;) 
+\ No newline at end of file
++3.     (KEYWORD, void) 
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"b446052b-eb3f-4e36-b535-52181b0f5e3b\" name=\"Changes\" comment=\"resolve error of symbol : after default\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/main.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/tokens.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/tokens.txt\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2HfBOaIlLXTJu6sKq3EjvqslgG1\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\n      <module name=\"compiler_phase1\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"$PROJECT_DIR$/../kafkaProducer/venv/bin/python\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"b446052b-eb3f-4e36-b535-52181b0f5e3b\" name=\"Changes\" comment=\"\" />\n      <created>1668666226320</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1668666226320</updated>\n      <workItem from=\"1668841336589\" duration=\"1048000\" />\n      <workItem from=\"1668872856867\" duration=\"99000\" />\n      <workItem from=\"1668872967665\" duration=\"1548000\" />\n      <workItem from=\"1669137839545\" duration=\"4000\" />\n      <workItem from=\"1669320961721\" duration=\"24000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"add scanner code to read char by char from file and recognize the token\">\n      <created>1668672673882</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668672673882</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"fix some error in scanner\">\n      <created>1668673329177</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668673329177</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"fix some error in scanner\">\n      <created>1668676261730</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668676261730</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"fix some error in scanner\">\n      <created>1668676289957</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668676289957</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"fix some error in scanner\">\n      <created>1668677743674</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668677743674</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"complete finding token and making error table and symbol table\">\n      <created>1668687532046</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668687532046</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"debug get token\">\n      <created>1668690286170</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668690286170</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"get_next_token and error_massage_table and symbol table are completed.\">\n      <created>1668692833415</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668692833415</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"complete version\">\n      <created>1668873067713</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668873067713</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"other files\">\n      <created>1668874397737</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1668874397737</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"resolve error of symbol : after default\">\n      <created>1669363353242</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669363353242</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"12\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"add scanner code to read char by char from file and recognize the token\" />\n    <MESSAGE value=\"fix some error in scanner\" />\n    <MESSAGE value=\"complete finding token and making error table and symbol table\" />\n    <MESSAGE value=\"debug get token\" />\n    <MESSAGE value=\"get_next_token and error_massage_table and symbol table are completed.\" />\n    <MESSAGE value=\"complete version\" />\n    <MESSAGE value=\"other files\" />\n    <MESSAGE value=\"resolve error of symbol : after default\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"resolve error of symbol : after default\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 587a33d33f8f5995cb1df080b7cdaee6ff6c8609)
++++ b/.idea/workspace.xml	(date 1669387715645)
+@@ -1,10 +1,12 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error of symbol : after default">
++    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error of symbol writing same lines in different lines in token file">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/symbol_table.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol_table.txt" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/tokens.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tokens1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens1.txt" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -27,11 +29,11 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">
+-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+-    <property name="WebServerToolWindowFactoryState" value="false" />
+-  </component>
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "last_opened_file_path": "/home/ubuntu/PycharmProjects/test"
++  }
++}]]></component>
+   <component name="RunManager">
+     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+       <module name="compiler_phase1" />
+@@ -147,7 +149,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1669363353242</updated>
+     </task>
+-    <option name="localTasksCounter" value="12" />
++    <task id="LOCAL-00012" summary="resolve error of symbol writing same lines in different lines in token file">
++      <created>1669366460899</created>
++      <option name="number" value="00012" />
++      <option name="presentableId" value="LOCAL-00012" />
++      <option name="project" value="LOCAL" />
++      <updated>1669366460899</updated>
++    </task>
++    <option name="localTasksCounter" value="13" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -173,6 +182,18 @@
+     <MESSAGE value="complete version" />
+     <MESSAGE value="other files" />
+     <MESSAGE value="resolve error of symbol : after default" />
+-    <option name="LAST_COMMIT_MESSAGE" value="resolve error of symbol : after default" />
++    <MESSAGE value="resolve error of symbol writing same lines in different lines in token file" />
++    <option name="LAST_COMMIT_MESSAGE" value="resolve error of symbol writing same lines in different lines in token file" />
++  </component>
++  <component name="XDebuggerManager">
++    <breakpoint-manager>
++      <breakpoints>
++        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
++          <url>file://$PROJECT_DIR$/main.py</url>
++          <line>190</line>
++          <option name="timeStamp" value="16" />
++        </line-breakpoint>
++      </breakpoints>
++    </breakpoint-manager>
+   </component>
+ </project>
+\ No newline at end of file

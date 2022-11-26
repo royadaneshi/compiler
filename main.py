@@ -4,7 +4,6 @@ import Enum_classes
 import fileinput
 
 
-
 # this function reads from file character by character and finds token
 # This functions returns current_position_of_cursor,Token_Type,Lexeme,current_line_position_of_cursor
 def get_next_token(current_position, line_position):
@@ -25,7 +24,7 @@ def get_next_token(current_position, line_position):
     invalids_latter = re.compile("^[#@!$_~]$")
     # read character by character
     char = file.read(1)
-    if not char or file.tell() == end_of_file:  # end of file
+    if not char and file.tell() == end_of_file:  # end of file
         position = file.tell()
         file.close()
         return position, "EOF", "", line_position
@@ -56,9 +55,9 @@ def get_next_token(current_position, line_position):
             if re.match(identifier_pattern2, identifier_char):
                 identifier = identifier + identifier_char
             elif re.match(invalids_latter, identifier_char):
-                 error_input = identifier + identifier_char
-                 error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
-                 return file.tell(), "", "", line_position
+                error_input = identifier + identifier_char
+                error_massage_table(line_position, error_input, Enum_classes.ErrorMsg.Invalid_input)
+                return file.tell(), "", "", line_position
             else:
                 file.seek(file.tell() - 1)  # move file pointer 1 char behind current position
                 # match keywords
@@ -159,37 +158,41 @@ def error_massage_table(line_number, token_until_here, error_massage):
         lexical_errors_file = open("lexical_errors.txt", "w")
 
         if error_massage == Enum_classes.ErrorMsg.Invalid_input:
-            lexical_errors_file.write( str(line_number)+"." +"\t" +"(" + token_until_here + ", " + error_massage + ")")
-            error_line=line_number
+            lexical_errors_file.write(
+                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
+            error_line = line_number
         if error_massage == Enum_classes.ErrorMsg.Invalid_number:
-            lexical_errors_file.write(str(line_number)+"."  +"\t" +"(" + token_until_here + ", " + error_massage + ")")
+            lexical_errors_file.write(
+                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
             error_line = line_number
         if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
-            lexical_errors_file.write(str(line_number)+"."  +"\t" +"("+ token_until_here[0:7] + "..., " + error_massage + ")")
+            lexical_errors_file.write(
+                str(line_number) + "." + "\t" + "(" + token_until_here[0:7] + "..., " + error_massage + ")")
             error_line = line_number
         if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
-            lexical_errors_file.write(str(line_number)+"." +"\t" +"("+ token_until_here + ", " + error_massage + ")")
+            lexical_errors_file.write(
+                str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
             error_line = line_number
     else:
 
-        if(error_line==line_number):
+        if (error_line == line_number):
             lexical_errors_file = open("lexical_errors.txt", "a")
             if error_massage == Enum_classes.ErrorMsg.Invalid_input:
                 lexical_errors_file.write(
                     " " + "(" + token_until_here + ", " + error_massage + ")")
             if error_massage == Enum_classes.ErrorMsg.Invalid_number:
                 lexical_errors_file.write(
-                    " " +"(" + token_until_here + ", " + error_massage + ")")
+                    " " + "(" + token_until_here + ", " + error_massage + ")")
             if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
                 lexical_errors_file.write(
-                    " " +"(" + token_until_here[0:7] + "..., " + error_massage + ")")
+                    " " + "(" + token_until_here[0:7] + "..., " + error_massage + ")")
             if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
                 lexical_errors_file.write(
                     " " + "(" + token_until_here + ", " + error_massage + ")")
             lexical_errors_file.close()
         else:
             lexical_errors_file = open("lexical_errors.txt", "a")
-            error_line=line_number
+            error_line = line_number
             if error_massage == Enum_classes.ErrorMsg.Invalid_input:
                 lexical_errors_file.write(
                     "\n" + str(line_number) + "." + "\t" + "(" + token_until_here + ", " + error_massage + ")")
@@ -206,12 +209,11 @@ def error_massage_table(line_number, token_until_here, error_massage):
             lexical_errors_file.close()
 
 
-
 def symbol_table(no, lexeme):  # if symbol is new then add it to the table whit appropriate line number else don't
     symbol_table_file = open("symbol_table.txt", "a")
     if list_1.count(lexeme) == 0:
         list_1.append(lexeme)
-        symbol_table_file.write("\n" + str(no) + "\t" + lexeme)
+        symbol_table_file.write("\n" + str(no) + ".\t" + lexeme)
         global t
         t = no + 1
     symbol_table_file.close()
@@ -249,12 +251,12 @@ def printing(to):
         if to[3] != current_line and not value in content:
             if to[3] == 1:
                 tokens_table_file = open("tokens1.txt", "a")
-                tokens_table_file.write(str(to[3])+"." + "\t" + "(" + to[1] + ", " + to[2] + ") ")
+                tokens_table_file.write(str(to[3]) + "." + "\t" + "(" + to[1] + ", " + to[2] + ") ")
                 current_line = current_line + 1
                 tokens_table_file.close()
             else:
                 tokens_table_file = open("tokens1.txt", "a")
-                tokens_table_file.write("\n" + str(to[3])+"." + "\t" + "(" + to[1] + ", " + to[2] + ") ")
+                tokens_table_file.write("\n" + str(to[3]) + "." + "\t" + "(" + to[1] + ", " + to[2] + ") ")
                 current_line = current_line + 1
                 tokens_table_file.close()
         else:
@@ -271,7 +273,7 @@ if __name__ == '__main__':
     cursor_line_position = 1
     ""
     t = 12
-    error_line=0
+    error_line = 0
     current_line = 0
     " test get_token function :"
     while 1:

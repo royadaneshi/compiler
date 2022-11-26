@@ -1,12 +1,21 @@
-/* text */
+int f(int a) {
+    void g(int b) {*/
+        output(b);
+        f(b - 1);
+    }
+    if (a == 1) {
+        output(a);
+        return 0;
+    } else {
+        g(a);
+    }
+    while (m==n) {
+    a = a +1 ;
+    }
 
-void main (void){
-	int i = 0;
-	while (i < 10){
-		i = i + 1;
-	}
-	int j  = i + 100; // comment
-	int out = i + j;
-	output(out);
+/
+}
 
+void main(void) {
+    f(10);
 }
