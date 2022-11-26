@@ -104,6 +104,7 @@ def get_next_token(current_position, line_position):
             next_char = file.read(1)
             comment = comment + next_char
             if next_char == "*":
+                line_position_cpy = line_position
                 while 1:
                     symbol_char = file.read(1)
                     comment = comment + symbol_char
@@ -115,7 +116,7 @@ def get_next_token(current_position, line_position):
                             return file.tell(), "", "", line_position
                         continue
                     elif file.tell() == end_of_file:
-                        error_massage_table(line_position, comment, Enum_classes.ErrorMsg.Unclosed_comment)
+                        error_massage_table(line_position_cpy, comment, Enum_classes.ErrorMsg.Unclosed_comment)
                         return file.tell(), "", "", line_position
             elif next_char == "/":  # match comment
                 while 1:
@@ -187,7 +188,7 @@ def error_massage_table(line_number, token_until_here, error_massage):
             error_line = line_number
     else:
 
-        if (error_line == line_number):
+        if error_line == line_number:
             lexical_errors_file = open("lexical_errors.txt", "a")
             if error_massage == Enum_classes.ErrorMsg.Invalid_input:
                 lexical_errors_file.write(

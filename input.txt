@@ -1,16 +1,11 @@
-int f(int a){
-return a * a * a;
-}
-void main(void){
-int a;
-int b;
-a = 8;
-if (b < 5) {
-a = f(a);
-}
-else{
-a = 4;
-}
-
-break;
+// Men of quality don't fear equality //#
+void main(int a, int b, Int c) {
+	while (arr[g] == 12){
+		killed = me; */
+		a;=;b-^&2d$a3#=3
+		break;
+		/* this is not wrong */
+		/*this is wrong *
+	return;
+	}
 }
