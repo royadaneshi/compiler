@@ -1,16 +1,16 @@
-int main(){
-	while (arr[2milk]> 2){
-		x = 23apple;
-		mk3 = x + 1;
-		if mk3 == 52 :
-			b =# 32;
-			return 2;
-		break;
-	}
-	this = 2;
-	return;;!
+int f(int a){
+return a * a * a;
 }
-# end of the code
-/* end of end of the code
-# hmmmmmm
-@#$#%%$*/
+void main(void){
+int a;
+int b;
+a = 8;
+if (b < 5) {
+a = f(a);
+}
+else{
+a = 4;
+}
+
+break;
+}

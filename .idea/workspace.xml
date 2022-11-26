@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="resolve error reorganization">
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lexical_errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lexical_errors.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symbol_table.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol_table.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tokens.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tokens1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669472674481</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="resolve error reorganization">
+      <created>1669472988205</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1669472988205</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

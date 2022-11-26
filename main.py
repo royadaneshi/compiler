@@ -192,16 +192,16 @@ def error_massage_table(line_number, token_until_here, error_massage):
             lexical_errors_file = open("lexical_errors.txt", "a")
             if error_massage == Enum_classes.ErrorMsg.Invalid_input:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here + ", " + error_massage + ") ")
+                     "(" + token_until_here + ", " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Invalid_number:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here + ", " + error_massage + ") ")
+                     "(" + token_until_here + ", " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Unclosed_comment:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here[0:7] + "..., " + error_massage + ") ")
+                     "(" + token_until_here[0:7] + "..., " + error_massage + ") ")
             if error_massage == Enum_classes.ErrorMsg.Unmatched_comment:
                 lexical_errors_file.write(
-                    " " + "(" + token_until_here + ", " + error_massage + ") ")
+                    "(" + token_until_here + ", " + error_massage + ") ")
             lexical_errors_file.close()
         else:
             lexical_errors_file = open("lexical_errors.txt", "a")
