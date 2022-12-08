@@ -21,6 +21,31 @@ class ErrorMsg:
     Invalid_number = 'Invalid number'
 
 
+def parser():
+    # TODO implement the parser
+    pass
+
+
+def c_minus_grammar():
+    # TODO put c-minus grammar in a 2D list
+    pass
+
+
+def get_LALR_table_by_bison():
+    # TODO get tabel from bison
+    pass
+
+
+def parse_tree():
+    # TODO make the parse tree and write in a output file
+    pass
+
+
+def syntax_errors():
+    # TODO fill the output error file and panic mode
+    pass
+
+
 # this function reads from file character by character and finds token
 # This functions returns current_position_of_cursor,Token_Type,Lexeme,current_line_position_of_cursor
 def get_next_token(line_position, program):
