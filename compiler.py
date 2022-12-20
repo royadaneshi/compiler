@@ -113,7 +113,6 @@ class Parser:
                         else:
                             self.syntax_errors(None, None,
                                                ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
-
                         continue
 
                     elif table_content.startswith("accept"):
