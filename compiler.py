@@ -1,4 +1,5 @@
 import re
+import json
 
 
 # Pardis Zahraei 99109777 , Roya Daneshi 99101557
@@ -21,29 +22,46 @@ class ErrorMsg:
     Invalid_number = 'Invalid number'
 
 
-def parser():
-    # TODO implement the parser
-    pass
+class Parser:
 
+    def __init__(self):
+        self.follow = None
+        self.first = None
+        self.grammar = None
+        self.terminals = None
+        self.non_terminals = None
+        self.parse_table = None
+        self.read_json_file()
 
-def c_minus_grammar():
-    # TODO put c-minus grammar in a 2D list
-    pass
+        pass
 
+    def parser(self):
+        # TODO implement the parser
 
-def get_LALR_table_by_bison():
-    # TODO get tabel from bison
-    pass
+        pass
 
+    def read_json_file(self):  # should be called in init function at first.
+        f = open('table.json')
+        data = json.load(f)
+        self.terminals = data["terminals"]
+        self.non_terminals = data["non_terminals"]
+        self.first = data["first"]
+        self.follow = data["follow"]
+        self.grammar = data["grammar"]
+        f.close()
+        pass
 
-def parse_tree():
-    # TODO make the parse tree and write in a output file
-    pass
+    def get_LALR_table_by_bison(self):
+        # TODO get tabel from bison
+        pass
 
+    def parse_tree(self):
+        # TODO make the parse tree and write in a output file
+        pass
 
-def syntax_errors():
-    # TODO fill the output error file and panic mode
-    pass
+    def syntax_errors(self):
+        # TODO fill the output error file and panic mode
+        pass
 
 
 # this function reads from file character by character and finds token

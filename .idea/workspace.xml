@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="write TODO for phase2">
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="make by bison table.json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compiler.py" beforeDir="false" afterPath="$PROJECT_DIR$/compiler.py" afterDir="false" />
     </list>
@@ -25,16 +25,20 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2HfBOaIlLXTJu6sKq3EjvqslgG1" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;/home/ubuntu/PycharmProjects/compiler_phase1&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "last_opened_file_path": "/home/ubuntu/PycharmProjects/Inferencee",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="compiler" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="compiler_phase1" />
@@ -220,7 +224,28 @@
       <option name="project" value="LOCAL" />
       <updated>1670499873758</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="make by bison table.json">
+      <created>1671533227560</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1671533227560</updated>
+    </task>
+    <task id="LOCAL-00023" summary="make by bison table.json">
+      <created>1671533418418</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1671533418418</updated>
+    </task>
+    <task id="LOCAL-00024" summary="make by bison table.json">
+      <created>1671533496487</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1671533496487</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,6 +263,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="add scanner code to read char by char from file and recognize the token" />
     <MESSAGE value="fix some error in scanner" />
     <MESSAGE value="complete finding token and making error table and symbol table" />
@@ -254,6 +280,7 @@
     <MESSAGE value="resolve space" />
     <MESSAGE value="phase1" />
     <MESSAGE value="write TODO for phase2" />
-    <option name="LAST_COMMIT_MESSAGE" value="write TODO for phase2" />
+    <MESSAGE value="make by bison table.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="make by bison table.json" />
   </component>
 </project>
