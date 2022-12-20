@@ -67,7 +67,7 @@ def get_next_token(line_position, program):
         index = index + 1
 
     if not char and index == end_of_file:  # end of file
-        return "EOF", "", line_position
+        return "$", "", line_position
     # match number
     elif re.match(number_pattern, char):
         number = number + char
@@ -344,7 +344,7 @@ if __name__ == '__main__':
     while 1:
         ans = get_next_token(cursor_line_position, program)
         cursor_line_position = ans[2]
-        if ans[0] == "EOF":
+        if ans[0] == "$":
             break
         printing(ans)
 
