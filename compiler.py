@@ -43,36 +43,54 @@ class Parser:
         self.input_tokens = None
 
     def parser(self, cursor_line_position_scanner, program_input):  # DONE
-        self.stack = []
-        self.stack.append("$")
-        self.stack.append("0")
 
+        self.stack = []
+        self.stack.append("$")  # initialize stack at start state
+        self.stack.append("0")
         self.input_tokens = []
-        self.input_tokens.append("$")  # is it necessary?
-        first_token = get_next_token(cursor_line_position_scanner, program_input)
-        cursor_line_position_scanner = first_token[2]
-        if first_token[0] == "$":
-            return 0  # say parse is finished
-        self.input_tokens.append(first_token)
+        # self.input_tokens.append("$")  # is it necessary?
+        while True:
+            first_token = get_next_token(cursor_line_position_scanner, program_input)
+            cursor_line_position_scanner = first_token[2]
+            if first_token[0] == "$":
+                self.input_tokens.append(first_token)
+                break  # end of file
+            if first_token[1] == "":
+                continue
+            else:
+                self.input_tokens.append(first_token)
+                break
 
         while 1:
             stack_state = self.stack[-1]  # get top of the stack
             input_token = self.input_tokens[-1]  # get top of the input tokens
-            if input_token in self.terminals:  # check validation of input
+            # check validation of input:
+            if input_token[1] in self.terminals or input_token[0] == "ID" or input_token[0] == "NUM" or input_token[
+                0] == "$":
                 state_columns_tuple = self.parse_table[stack_state]
-                if input_token in state_columns_tuple.keys():
-                    table_content = self.parse_table[stack_state][input_token]
+                if input_token[1] in state_columns_tuple.keys() or input_token[0] in state_columns_tuple.keys():
+                    if input_token[0] == "ID" or input_token[0] == "NUM" or input_token[0] == "$":
+                        table_content = self.parse_table[stack_state][input_token[0]]
+                    else:
+                        table_content = self.parse_table[stack_state][input_token[1]]
                     if table_content.startswith("shift"):
                         shifted_token = self.input_tokens.pop()
                         state_no = table_content.replace('shift_', '')
                         self.stack.append(shifted_token)
                         self.stack.append(state_no)
                         # get nex token(call scanner):
-                        current_token = get_next_token(cursor_line_position_scanner, program_input)
-                        cursor_line_position_scanner = current_token[2]
-                        if current_token[0] == "$":
-                            return 0  # say parse is finished
-                        self.input_tokens.append(current_token)
+                        while True:
+                            current_token = get_next_token(cursor_line_position_scanner, program_input)
+                            cursor_line_position_scanner = current_token[2]
+                            if current_token[0] == "$":
+                                self.input_tokens.append(current_token)
+                                break  # end of file
+                            if current_token[1] == "":
+                                continue
+                            else:
+                                self.input_tokens.append(current_token)
+                                break
+
                         continue
                     elif table_content.startswith("reduce"):
                         rule_no = table_content.replace('reduce_', '')
@@ -81,14 +99,14 @@ class Parser:
                             size_pop_stack = 0
                         else:
                             size_pop_stack = 2 * (len(reduce_rule) - 2)
-
                         non_terminal_push = reduce_rule[0]
                         reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
                         self.stack = self.stack[:len(self.stack) - size_pop_stack]  # pop elements from the stack
                         top_stack_no = self.stack[-1]  # get top of the stack state number
                         non_terminal_goto = self.parse_table[top_stack_no]
                         if non_terminal_push in non_terminal_goto:  # impossible error but I checked it!
-                            num_push = self.parse_table[top_stack_no][non_terminal_push]
+                            go_to = self.parse_table[top_stack_no][non_terminal_push]
+                            num_push = go_to.replace('goto_', '')
                             self.stack.append(non_terminal_push)
                             self.stack.append(num_push)
                             self.parse_tree(non_terminal_push, reduced_elements[::2])
@@ -100,6 +118,7 @@ class Parser:
 
                     elif table_content.startswith("accept"):
                         # parse completed!
+                        print("parse completed!")
                         return 0  # say parse is finished
 
                 else:  # empty home in table
@@ -113,14 +132,19 @@ class Parser:
         self.first = data["first"]
         self.follow = data["follow"]
         self.grammar = data["grammar"]
+        self.parse_table = data["parse_table"]
         f.close()
 
     def parse_tree(self, root, children):
         # TODO make the parse tree and write in a output file
+        print("parse tree")
+        return
         pass
 
     def syntax_errors(self, input_token, stack_state, error_msg):
         # TODO fill the output error file and panic mode
+        print("error")
+        return
         pass
 
 
@@ -422,7 +446,6 @@ if __name__ == '__main__':
     "Call the parser: "
     parser_obj = Parser()
     parser_obj.parser(cursor_line_position, program)
-
 
     # for witting in tokens.txt without any empty line at top of the file
     with open('tokens1.txt', 'r') as infile, open('tokens.txt', 'w') as outfile:
