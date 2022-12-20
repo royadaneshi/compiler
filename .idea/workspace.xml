@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="fill properties from json file">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler.py" beforeDir="false" afterPath="$PROJECT_DIR$/compiler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symbol_table.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbol_table.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokens1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tokens1.txt" afterDir="false" />
-    </list>
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="add parser code function and read json file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -254,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671535268989</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="add parser code function and read json file">
+      <created>1671541345538</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1671541345538</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,6 +293,7 @@
     <MESSAGE value="write TODO for phase2" />
     <MESSAGE value="make by bison table.json" />
     <MESSAGE value="fill properties from json file" />
-    <option name="LAST_COMMIT_MESSAGE" value="fill properties from json file" />
+    <MESSAGE value="add parser code function and read json file" />
+    <option name="LAST_COMMIT_MESSAGE" value="add parser code function and read json file" />
   </component>
 </project>
