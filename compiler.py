@@ -22,6 +22,13 @@ class ErrorMsg:
     Invalid_number = 'Invalid number'
 
 
+class ParsErrorMsg:
+    # WATCH OUT:  these two massage here not in the documentation format!
+    Empty_parse_table = "Empty_parse_table_home"
+    Empty_parse_table_goto = "Empty_parse_table_goto_home"
+    # TODO complete error massages in panic mode here base on the documentation
+
+
 class Parser:
 
     def __init__(self):
@@ -32,15 +39,73 @@ class Parser:
         self.non_terminals = None
         self.parse_table = None
         self.read_json_file()
+        self.stack = None
+        self.input_tokens = None
 
-        pass
+    def parser(self, cursor_line_position_scanner, program_input):  # DONE
+        self.stack = []
+        self.stack.append("$")
+        self.stack.append("0")
 
-    def parser(self):
-        # TODO implement the parser
+        self.input_tokens = []
+        self.input_tokens.append("$")  # is it necessary?
+        first_token = get_next_token(cursor_line_position_scanner, program_input)
+        cursor_line_position_scanner = first_token[2]
+        if first_token[0] == "$":
+            return 0  # say parse is finished
+        self.input_tokens.append(first_token)
 
-        pass
+        while 1:
+            stack_state = self.stack[-1]  # get top of the stack
+            input_token = self.input_tokens[-1]  # get top of the input tokens
+            if input_token in self.terminals:  # check validation of input
+                state_columns_tuple = self.parse_table[stack_state]
+                if input_token in state_columns_tuple.keys():
+                    table_content = self.parse_table[stack_state][input_token]
+                    if table_content.startswith("shift"):
+                        shifted_token = self.input_tokens.pop()
+                        state_no = table_content.replace('shift_', '')
+                        self.stack.append(shifted_token)
+                        self.stack.append(state_no)
+                        # get nex token(call scanner):
+                        current_token = get_next_token(cursor_line_position_scanner, program_input)
+                        cursor_line_position_scanner = current_token[2]
+                        if current_token[0] == "$":
+                            return 0  # say parse is finished
+                        self.input_tokens.append(current_token)
+                        continue
+                    elif table_content.startswith("reduce"):
+                        rule_no = table_content.replace('reduce_', '')
+                        reduce_rule = self.grammar[rule_no]
+                        if reduce_rule[2] == "epsilon":  # if the rule goes to epsilon shouldn't pop anything from stack
+                            size_pop_stack = 0
+                        else:
+                            size_pop_stack = 2 * (len(reduce_rule) - 2)
 
-    def read_json_file(self):  # should be called in init function at first.
+                        non_terminal_push = reduce_rule[0]
+                        reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
+                        self.stack = self.stack[:len(self.stack) - size_pop_stack]  # pop elements from the stack
+                        top_stack_no = self.stack[-1]  # get top of the stack state number
+                        non_terminal_goto = self.parse_table[top_stack_no]
+                        if non_terminal_push in non_terminal_goto:  # impossible error but I checked it!
+                            num_push = self.parse_table[top_stack_no][non_terminal_push]
+                            self.stack.append(non_terminal_push)
+                            self.stack.append(num_push)
+                            self.parse_tree(non_terminal_push, reduced_elements[::2])
+                        else:
+                            self.syntax_errors(None, None,
+                                               ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
+
+                        continue
+
+                    elif table_content.startswith("accept"):
+                        # parse completed!
+                        return 0  # say parse is finished
+
+                else:  # empty home in table
+                    self.syntax_errors(input_token, stack_state, ParsErrorMsg.Empty_parse_table)
+
+    def read_json_file(self):  # DONE  # this func called in init function at first.
         f = open('table.json')
         data = json.load(f)
         self.terminals = data["terminals"]
@@ -49,17 +114,12 @@ class Parser:
         self.follow = data["follow"]
         self.grammar = data["grammar"]
         f.close()
-        pass
 
-    def get_LALR_table_by_bison(self):
-        # TODO get tabel from bison
-        pass
-
-    def parse_tree(self):
+    def parse_tree(self, root, children):
         # TODO make the parse tree and write in a output file
         pass
 
-    def syntax_errors(self):
+    def syntax_errors(self, input_token, stack_state, error_msg):
         # TODO fill the output error file and panic mode
         pass
 
@@ -358,13 +418,11 @@ if __name__ == '__main__':
     file = open('input.txt', 'r')
     program = file.read()
     index = 0
-    " test get_token function :"
-    while 1:
-        ans = get_next_token(cursor_line_position, program)
-        cursor_line_position = ans[2]
-        if ans[0] == "$":
-            break
-        printing(ans)
+
+    "Call the parser: "
+    parser_obj = Parser()
+    parser_obj.parser(cursor_line_position, program)
+
 
     # for witting in tokens.txt without any empty line at top of the file
     with open('tokens1.txt', 'r') as infile, open('tokens.txt', 'w') as outfile:

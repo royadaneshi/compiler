@@ -9,7 +9,3 @@
 9.	case
 10.	return
 11.	endif
-12.	f
-13.	a
-14.	main
-15.	b
