@@ -1,6 +1,7 @@
+import copy
 import re
 import json
-
+from treelib import Node, Tree
 
 # Roya Daneshi 99101557 ,Pardis Zahraei 99109777
 
@@ -111,7 +112,8 @@ class Parser:
                             num_push = go_to.replace('goto_', '')
                             self.stack.append(non_terminal_push)
                             self.stack.append(num_push)
-                            self.parse_tree(non_terminal_push, reduced_elements[::2])
+                            parse_list.append([non_terminal_push, reduced_elements[::2]])
+
                         else:
                             self.syntax_errors(None, None,
                                                ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
@@ -119,6 +121,7 @@ class Parser:
 
                     elif table_content.startswith("accept"):
                         # parse completed!
+                        self.parse_tree()
                         print("parse completed!")
                         return 0  # say parse is finished
 
@@ -136,21 +139,51 @@ class Parser:
         self.parse_table = data["parse_table"]
         f.close()
 
-    def parse_tree(self, root, children):
+    def parse_tree(self):
         # TODO make the parse tree and write in a output file
         """
         the given root to the function is not complete
         for example A -> B -> C -> D
         is needed to know where to put the link but only C -> D
         is given and some other tokens as root are not sent here like A -> B  in example above
-        given all the way from root to leaf can make it in that format like
-        A  -> B -> C
-        A -> B -> D
-        A -> M
+        """
+        # old code without treelib
+        """
+        list_all_dfs=[]
+        print(parse_list)
+        new_parse_list=copy.deepcopy(parse_list)
+        top_elem = new_parse_list.pop()
+        parent_1 = top_elem[0]
+        child_1 = top_elem[1]
+        child_1_without_bracket = child_1[0]
+        if (len(child_1_without_bracket) == 3):
+            child_1.pop()
+        curent_list=[parent_1,child_1_without_bracket]
+        child_1_without_bracket_before =child_1_without_bracket
+        list_all_dfs.append(curent_list)
+        for i in range (len(new_parse_list)):
+            top_elem = new_parse_list.pop()
+            parent_1 = top_elem[0]
+            child_1 = top_elem[1]
+            child_1_without_bracket = list(child_1[0])
+            new_curent_list=copy.deepcopy(curent_list)
+            if (len(child_1_without_bracket) == 3):
+                child_1_without_bracket_before.pop()
+            if(parent_1==child_1_without_bracket_before):
+                new_curent_list.append(child_1_without_bracket)
+            else:
+                list_all_dfs.append(curent_list)
+                for i in curent_list:
+                    if (parent_1 == i):
+                        curent_list=[]
+                        curent_list.append(child_1_without_bracket)
+            child_1_without_bracket_before=child_1_without_bracket
         """
 
-        parse_list.append([root,children])
-        print([root,children])
+        tree = Tree()
+        parse_list.reverse()
+        for i in range(len(parse_list)):
+            print(parse_list[i])
         return
         pass
 
@@ -486,3 +519,4 @@ if __name__ == '__main__':
         for line in infile:
             if not line.strip(): continue  # skip the empty line
             outfile.write(line)  # non-empty line. Write it to output
+
