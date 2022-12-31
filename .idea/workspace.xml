@@ -29,13 +29,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "last_opened_file_path": "/home/ubuntu/PycharmProjects/Inferencee",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
-  }
-}]]></component>
   <component name="RunManager">
     <configuration name="compiler" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="compiler_phase1" />

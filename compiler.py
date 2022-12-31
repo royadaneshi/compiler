@@ -2,7 +2,7 @@ import re
 import json
 
 
-# Pardis Zahraei 99109777 , Roya Daneshi 99101557
+# Roya Daneshi 99101557 ,Pardis Zahraei 99109777
 
 class Token:
     Invalid = 'Invalid'
@@ -28,7 +28,9 @@ class ParsErrorMsg:
     Empty_parse_table_goto = "Empty_parse_table_goto_home"
     # TODO complete error massages in panic mode here base on the documentation
 
-
+"""
+PARSER PART
+"""
 class Parser:
 
     def __init__(self):
@@ -136,16 +138,48 @@ class Parser:
 
     def parse_tree(self, root, children):
         # TODO make the parse tree and write in a output file
-        print("parse tree")
+        """
+        the given root to the function is not complete
+        for example A -> B -> C -> D
+        is needed to know where to put the link but only C -> D
+        is given and some other tokens as root are not sent here like A -> B  in example above
+        given all the way from root to leaf can make it in that format like
+        A  -> B -> C
+        A -> B -> D
+        A -> M
+        """
+
+        parse_list.append([root,children])
+        print([root,children])
         return
         pass
 
+    def add_roots(self, owner, data):
+        o = owner.setdefault(data.pop(0), {})
+        if data:
+            self.add_roots(o, data)
+
+    def show(self,base, data):
+        while data:
+            k, v = data.pop(0)
+            print('%s|-%s' % (base, k))
+            if v:
+                if data:
+                    self.show(base + '| ', v.items())
+                else:
+                    self.show(base + '  ', v.items())
+
     def syntax_errors(self, input_token, stack_state, error_msg):
         # TODO fill the output error file and panic mode
+        # not sure what panic mode in 3 steps mean can apply step 1 but not sure about step 2 , 3
+        # will ask tas about it
         print("error")
         return
         pass
 
+"""
+Scanner Part
+"""
 
 # this function reads from file character by character and finds token
 # This functions returns current_position_of_cursor,Token_Type,Lexeme,current_line_position_of_cursor
@@ -441,7 +475,8 @@ if __name__ == '__main__':
     file = open('input.txt', 'r')
     program = file.read()
     index = 0
-
+    global parse_list
+    parse_list=[]
     "Call the parser: "
     parser_obj = Parser()
     parser_obj.parser(cursor_line_position, program)
