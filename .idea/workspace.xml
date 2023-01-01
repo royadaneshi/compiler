@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="if treelib ok, only errors left">
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="3 methods added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,6 +75,8 @@
       <workItem from="1672501661255" duration="2000" />
       <workItem from="1672525946999" duration="97000" />
       <workItem from="1672552590360" duration="3000" />
+      <workItem from="1672570683753" duration="61000" />
+      <workItem from="1672571000240" duration="182000" />
     </task>
     <task id="LOCAL-00001" summary="add scanner code to read char by char from file and recognize the token">
       <created>1668672673882</created>
@@ -293,7 +295,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672526017706</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="if treelib ok, only errors left">
+      <created>1672570706444</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1672570706444</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

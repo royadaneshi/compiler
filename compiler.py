@@ -100,10 +100,13 @@ class Parser:
                         reduce_rule = self.grammar[rule_no]
                         if reduce_rule[2] == "epsilon":  # if the rule goes to epsilon shouldn't pop anything from stack
                             size_pop_stack = 0
+                            non_terminal_push = reduce_rule[0]
+                            reduced_elements=["epsilon",1]
                         else:
                             size_pop_stack = 2 * (len(reduce_rule) - 2)
-                        non_terminal_push = reduce_rule[0]
-                        reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
+                            non_terminal_push = reduce_rule[0]
+                            reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
+
                         self.stack = self.stack[:len(self.stack) - size_pop_stack]  # pop elements from the stack
                         top_stack_no = self.stack[-1]  # get top of the stack state number
                         non_terminal_goto = self.parse_table[top_stack_no]
