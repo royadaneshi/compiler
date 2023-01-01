@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="only token problem">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler_phase1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler_phase1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="if treelib ok, only errors left">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,6 +73,8 @@
       <workItem from="1669320961721" duration="24000" />
       <workItem from="1672501583349" duration="72000" />
       <workItem from="1672501661255" duration="2000" />
+      <workItem from="1672525946999" duration="97000" />
+      <workItem from="1672552590360" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="add scanner code to read char by char from file and recognize the token">
       <created>1668672673882</created>
@@ -286,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672451303584</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="if treelib ok, only errors left">
+      <created>1672526017706</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1672526017706</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -326,7 +333,8 @@
     <MESSAGE value="add parser code function and read json file" />
     <MESSAGE value="debug parser" />
     <MESSAGE value="only token problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="only token problem" />
+    <MESSAGE value="if treelib ok, only errors left" />
+    <option name="LAST_COMMIT_MESSAGE" value="if treelib ok, only errors left" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/compiler_project$main.coverage" NAME="main Coverage Results" MODIFIED="1669468843385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -2,7 +2,7 @@ import copy
 import re
 import json
 from treelib import Node, Tree
-
+from anytree import Node, RenderTree
 # Roya Daneshi 99101557 ,Pardis Zahraei 99109777
 
 class Token:
@@ -179,14 +179,38 @@ class Parser:
                         curent_list.append(child_1_without_bracket)
             child_1_without_bracket_before=child_1_without_bracket
         """
-
-        tree = Tree()
+        # method 1:
+        # TODO if possible use treelib
+        root = Node("program")
+        nodes = {}
+        nodes[root.name] = root
+        print(parse_list)
         parse_list.reverse()
         for i in range(len(parse_list)):
             print(parse_list[i])
+            top_elem=parse_list[i]
+            parent_1 = top_elem[0]
+            child_1 = top_elem[1]
+            if(len(child_1)==1):
+                child_1_without_bracket = child_1[0]
+                nodes[child_1_without_bracket] = Node(child_1_without_bracket, parent=nodes[parent_1])
+            else:
+                for i in range (len(child_1)):
+                    child_1_without_bracket = child_1[i]
+                    if(len(child_1_without_bracket)==3):
+                        l=list(child_1_without_bracket)
+                        l.pop()
+                        t = tuple(l)
+                        nodes[str(t)] = Node(str(t), parent=nodes[parent_1])
+                    else:
+                        nodes[child_1_without_bracket] = Node(child_1_without_bracket, parent=nodes[parent_1])
+        for pre, _, node in RenderTree(root):
+            print("%s%s" % (pre, node.name))
+
+
         return
         pass
-
+    # method 2 draw DFS inputs
     def add_roots(self, owner, data):
         o = owner.setdefault(data.pop(0), {})
         if data:
@@ -201,7 +225,39 @@ class Parser:
                     self.show(base + '| ', v.items())
                 else:
                     self.show(base + '  ', v.items())
+    #method 3:
+    # TODO if possible use treelib
+    """
+    tree = Tree()
+    tree.create_node("program", 0)  # root node
+    id_glob = 0
 
+    parse_list.reverse()
+    for i in range(len(parse_list)):
+        print(parse_list[i])
+        top_elem = parse_list[i]
+        id_parent = id_glob
+        parent_1 = top_elem[0]
+        child_1 = top_elem[1]
+        if (len(child_1) == 1):
+            child_1_without_bracket = child_1[0]
+            id_glob = id_glob + 1
+            tree.create_node(child_1_without_bracket, id_glob, parent=id_parent)
+        else:
+            for i in range(len(child_1)):
+                id_glob = id_glob + 1
+                child_1_without_bracket = child_1[i]
+                if (len(child_1_without_bracket) == 3):
+                    l = list(child_1_without_bracket)
+                    l.pop()
+                    t = tuple(l)
+                    tree.create_node(str(t), id_glob, parent=id_parent)
+                else:
+                    tree.create_node(child_1_without_bracket, id_glob, parent=id_parent)
+        tree.show()
+
+    return
+    pass
     def syntax_errors(self, input_token, stack_state, error_msg):
         # TODO fill the output error file and panic mode
         # not sure what panic mode in 3 steps mean can apply step 1 but not sure about step 2 , 3
@@ -209,7 +265,7 @@ class Parser:
         print("error")
         return
         pass
-
+    """
 """
 Scanner Part
 """
@@ -500,6 +556,7 @@ if __name__ == '__main__':
     initialize()
     cursor_position = 0
     cursor_line_position = 1
+
     ""
     line_read = 1
     t = 12
