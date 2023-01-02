@@ -68,68 +68,68 @@ class Parser:
             stack_state = self.stack[-1]  # get top of the stack
             input_token = self.input_tokens[-1]  # get top of the input tokens
             # check validation of input:
-            if input_token[1] in self.terminals or input_token[0] == "ID" or input_token[0] == "NUM" or input_token[
-                0] == "$":
-                state_columns_tuple = self.parse_table[stack_state]
-                if input_token[1] in state_columns_tuple.keys() or input_token[0] in state_columns_tuple.keys():
-                    if input_token[0] == "ID" or input_token[0] == "NUM" or input_token[0] == "$":
-                        table_content = self.parse_table[stack_state][input_token[0]]
+            #if input_token[1] in self.terminals or input_token[0] == "ID" or input_token[0] == "NUM" or input_token[
+           #     0] == "$":
+            state_columns_tuple = self.parse_table[stack_state]
+            if input_token[1] in state_columns_tuple.keys() or input_token[0] in state_columns_tuple.keys():
+                if input_token[0] == "ID" or input_token[0] == "NUM" or input_token[0] == "$":
+                    table_content = self.parse_table[stack_state][input_token[0]]
+                else:
+                    table_content = self.parse_table[stack_state][input_token[1]]
+                if table_content.startswith("shift"):
+                    shifted_token = self.input_tokens.pop()
+                    state_no = table_content.replace('shift_', '')
+                    self.stack.append(shifted_token)
+                    self.stack.append(state_no)
+                    # get nex token(call scanner):
+                    while True:
+                        current_token = get_next_token(cursor_line_position_scanner, program_input)
+                        cursor_line_position_scanner = current_token[2]
+                        if current_token[0] == "$":
+                            self.input_tokens.append(current_token)
+                            break  # end of file
+                        if current_token[1] == "":
+                            continue
+                        else:
+                            self.input_tokens.append(current_token)
+                            break
+
+                    continue
+                elif table_content.startswith("reduce"):
+                    rule_no = table_content.replace('reduce_', '')
+                    reduce_rule = self.grammar[rule_no]
+                    if reduce_rule[2] == "epsilon":  # if the rule goes to epsilon shouldn't pop anything from stack
+                        size_pop_stack = 0
+                        non_terminal_push = reduce_rule[0]
+                        reduced_elements=["epsilon",1]
                     else:
-                        table_content = self.parse_table[stack_state][input_token[1]]
-                    if table_content.startswith("shift"):
-                        shifted_token = self.input_tokens.pop()
-                        state_no = table_content.replace('shift_', '')
-                        self.stack.append(shifted_token)
-                        self.stack.append(state_no)
-                        # get nex token(call scanner):
-                        while True:
-                            current_token = get_next_token(cursor_line_position_scanner, program_input)
-                            cursor_line_position_scanner = current_token[2]
-                            if current_token[0] == "$":
-                                self.input_tokens.append(current_token)
-                                break  # end of file
-                            if current_token[1] == "":
-                                continue
-                            else:
-                                self.input_tokens.append(current_token)
-                                break
+                        size_pop_stack = 2 * (len(reduce_rule) - 2)
+                        non_terminal_push = reduce_rule[0]
+                        reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
 
-                        continue
-                    elif table_content.startswith("reduce"):
-                        rule_no = table_content.replace('reduce_', '')
-                        reduce_rule = self.grammar[rule_no]
-                        if reduce_rule[2] == "epsilon":  # if the rule goes to epsilon shouldn't pop anything from stack
-                            size_pop_stack = 0
-                            non_terminal_push = reduce_rule[0]
-                            reduced_elements=["epsilon",1]
-                        else:
-                            size_pop_stack = 2 * (len(reduce_rule) - 2)
-                            non_terminal_push = reduce_rule[0]
-                            reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
+                    self.stack = self.stack[:len(self.stack) - size_pop_stack]  # pop elements from the stack
+                    top_stack_no = self.stack[-1]  # get top of the stack state number
+                    non_terminal_goto = self.parse_table[top_stack_no]
+                    if non_terminal_push in non_terminal_goto:  # impossible error but I checked it!
+                        go_to = self.parse_table[top_stack_no][non_terminal_push]
+                        num_push = go_to.replace('goto_', '')
+                        self.stack.append(non_terminal_push)
+                        self.stack.append(num_push)
+                        parse_list.append([non_terminal_push, reduced_elements[::2]])
 
-                        self.stack = self.stack[:len(self.stack) - size_pop_stack]  # pop elements from the stack
-                        top_stack_no = self.stack[-1]  # get top of the stack state number
-                        non_terminal_goto = self.parse_table[top_stack_no]
-                        if non_terminal_push in non_terminal_goto:  # impossible error but I checked it!
-                            go_to = self.parse_table[top_stack_no][non_terminal_push]
-                            num_push = go_to.replace('goto_', '')
-                            self.stack.append(non_terminal_push)
-                            self.stack.append(num_push)
-                            parse_list.append([non_terminal_push, reduced_elements[::2]])
+                    else:
+                        self.syntax_errors(None, None,
+                                           ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
+                    continue
 
-                        else:
-                            self.syntax_errors(None, None,
-                                               ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
-                        continue
+                elif table_content.startswith("accept"):
+                    # parse completed!
+                    self.parse_tree()
+                    print("parse completed!")
+                    return 0  # say parse is finished
 
-                    elif table_content.startswith("accept"):
-                        # parse completed!
-                        self.parse_tree()
-                        print("parse completed!")
-                        return 0  # say parse is finished
-
-                else:  # empty home in table
-                    self.syntax_errors(input_token, stack_state, ParsErrorMsg.Empty_parse_table)
+            else:  # empty home in table
+                self.syntax_errors(input_token, stack_state, ParsErrorMsg.Empty_parse_table)
 
     def read_json_file(self):  # DONE  # this func called in init function at first.
         f = open('table.json')
