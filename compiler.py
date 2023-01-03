@@ -1,8 +1,12 @@
 import copy
 import re
 import json
+from anytree.exporter import JsonExporter
+from anytree.dotexport import RenderTreeGraph
 from treelib import Node, Tree
 from anytree import Node, RenderTree
+
+
 # Roya Daneshi 99101557 ,Pardis Zahraei 99109777
 
 class Token:
@@ -29,9 +33,12 @@ class ParsErrorMsg:
     Empty_parse_table_goto = "Empty_parse_table_goto_home"
     # TODO complete error massages in panic mode here base on the documentation
 
+
 """
 PARSER PART
 """
+
+
 class Parser:
 
     def __init__(self):
@@ -44,6 +51,7 @@ class Parser:
         self.read_json_file()
         self.stack = None
         self.input_tokens = None
+        self.Program_node = None
 
     def parser(self, cursor_line_position_scanner, program_input):  # DONE
 
@@ -55,6 +63,9 @@ class Parser:
         while True:
             first_token = get_next_token(cursor_line_position_scanner, program_input)
             cursor_line_position_scanner = first_token[2]
+            if type(first_token) is tuple:
+                l_element = len(first_token) - 1
+                first_token = first_token[:l_element]
             if first_token[0] == "$":
                 self.input_tokens.append(first_token)
                 break  # end of file
@@ -66,10 +77,14 @@ class Parser:
 
         while 1:
             stack_state = self.stack[-1]  # get top of the stack
-            input_token = self.input_tokens[-1]  # get top of the input tokens
+            input_token = self.input_tokens[-1]
+            if type(input_token) is tuple and len(input_token)==3:
+                l_element = len(input_token) - 1
+                input_token = input_token[:l_element]
+            # get top of the input tokens
             # check validation of input:
-            #if input_token[1] in self.terminals or input_token[0] == "ID" or input_token[0] == "NUM" or input_token[
-           #     0] == "$":
+            # if input_token[1] in self.terminals or input_token[0] == "ID" or input_token[0] == "NUM" or input_token[
+            #     0] == "$":
             state_columns_tuple = self.parse_table[stack_state]
             if input_token[1] in state_columns_tuple.keys() or input_token[0] in state_columns_tuple.keys():
                 if input_token[0] == "ID" or input_token[0] == "NUM" or input_token[0] == "$":
@@ -85,6 +100,9 @@ class Parser:
                     while True:
                         current_token = get_next_token(cursor_line_position_scanner, program_input)
                         cursor_line_position_scanner = current_token[2]
+                        if type(current_token) is tuple and len(current_token)==3 :
+                            l_element = len(current_token) - 1
+                            current_token = current_token[:l_element]
                         if current_token[0] == "$":
                             self.input_tokens.append(current_token)
                             break  # end of file
@@ -101,11 +119,18 @@ class Parser:
                     if reduce_rule[2] == "epsilon":  # if the rule goes to epsilon shouldn't pop anything from stack
                         size_pop_stack = 0
                         non_terminal_push = reduce_rule[0]
-                        reduced_elements=["epsilon",1]
+                        reduced_elements = ["epsilon", 1]
                     else:
                         size_pop_stack = 2 * (len(reduce_rule) - 2)
                         non_terminal_push = reduce_rule[0]
                         reduced_elements = self.stack[len(self.stack) - size_pop_stack:]
+
+                    non_terminal_push_parent = Node(non_terminal_push)
+                    for child in reduced_elements[::2]:
+                        if isinstance(child, Node):
+                            child.parent = non_terminal_push_parent
+                        else:
+                            Node(child, parent=non_terminal_push_parent)
 
                     self.stack = self.stack[:len(self.stack) - size_pop_stack]  # pop elements from the stack
                     top_stack_no = self.stack[-1]  # get top of the stack state number
@@ -113,9 +138,10 @@ class Parser:
                     if non_terminal_push in non_terminal_goto:  # impossible error but I checked it!
                         go_to = self.parse_table[top_stack_no][non_terminal_push]
                         num_push = go_to.replace('goto_', '')
-                        self.stack.append(non_terminal_push)
+                        self.stack.append(non_terminal_push_parent)  # push non-terminal
                         self.stack.append(num_push)
-                        parse_list.append([non_terminal_push, reduced_elements[::2]])
+                        if non_terminal_push == 'program':
+                            self.Program_node = non_terminal_push_parent
 
                     else:
                         self.syntax_errors(None, None,
@@ -123,8 +149,8 @@ class Parser:
                     continue
 
                 elif table_content.startswith("accept"):
-                    # parse completed!
-                    self.parse_tree()
+                    Node('$', parent=non_terminal_push_parent)
+                    self.sketch_tree()
                     print("parse completed!")
                     return 0  # say parse is finished
 
@@ -142,139 +168,23 @@ class Parser:
         self.parse_table = data["parse_table"]
         f.close()
 
-    def parse_tree(self):
-        # TODO make the parse tree and write in a output file
-        """
-        the given root to the function is not complete
-        for example A -> B -> C -> D
-        is needed to know where to put the link but only C -> D
-        is given and some other tokens as root are not sent here like A -> B  in example above
-        """
-        # old code without treelib
-        """
-        list_all_dfs=[]
-        print(parse_list)
-        new_parse_list=copy.deepcopy(parse_list)
-        top_elem = new_parse_list.pop()
-        parent_1 = top_elem[0]
-        child_1 = top_elem[1]
-        child_1_without_bracket = child_1[0]
-        if (len(child_1_without_bracket) == 3):
-            child_1.pop()
-        curent_list=[parent_1,child_1_without_bracket]
-        child_1_without_bracket_before =child_1_without_bracket
-        list_all_dfs.append(curent_list)
-        for i in range (len(new_parse_list)):
-            top_elem = new_parse_list.pop()
-            parent_1 = top_elem[0]
-            child_1 = top_elem[1]
-            child_1_without_bracket = list(child_1[0])
-            new_curent_list=copy.deepcopy(curent_list)
-            if (len(child_1_without_bracket) == 3):
-                child_1_without_bracket_before.pop()
-            if(parent_1==child_1_without_bracket_before):
-                new_curent_list.append(child_1_without_bracket)
-            else:
-                list_all_dfs.append(curent_list)
-                for i in curent_list:
-                    if (parent_1 == i):
-                        curent_list=[]
-                        curent_list.append(child_1_without_bracket)
-            child_1_without_bracket_before=child_1_without_bracket
-        """
-        # method 1:
-        # TODO if possible use treelib
-        root = Node("program")
-        nodes = {}
-        nodes[root.name] = root
-        print(parse_list)
-        parse_list.reverse()
-        for i in range(len(parse_list)):
-            print(parse_list[i])
-            top_elem=parse_list[i]
-            parent_1 = top_elem[0]
-            child_1 = top_elem[1]
-            if(len(child_1)==1):
-                child_1_without_bracket = child_1[0]
-                nodes[child_1_without_bracket] = Node(child_1_without_bracket, parent=nodes[parent_1])
-            else:
-                for i in range (len(child_1)):
-                    child_1_without_bracket = child_1[i]
-                    if(len(child_1_without_bracket)==3):
-                        l=list(child_1_without_bracket)
-                        l.pop()
-                        t = tuple(l)
-                        nodes[str(t)] = Node(str(t), parent=nodes[parent_1])
-                    else:
-                        nodes[child_1_without_bracket] = Node(child_1_without_bracket, parent=nodes[parent_1])
-        for pre, _, node in RenderTree(root):
-            print("%s%s" % (pre, node.name))
+    def sketch_tree(self):
+        parse_tree_file = open("parse_tree.txt", "w+")
+        parse_tree_file.close()
+        for pre, fill, node in RenderTree(self.Program_node):
+            s=("%s%s" % (pre, node.name))
+            s = s.translate({ord(i): None for i in '\''})
+            parse_tree_file = open("parse_tree.txt", "a", encoding="utf-8")
+            parse_tree_file.write(s+"\n")
+            parse_tree_file.close()
 
 
-        return
-        pass
-    # method 2 draw DFS inputs
-    def add_roots(self, owner, data):
-        o = owner.setdefault(data.pop(0), {})
-        if data:
-            self.add_roots(o, data)
-
-    def show(self,base, data):
-        while data:
-            k, v = data.pop(0)
-            print('%s|-%s' % (base, k))
-            if v:
-                if data:
-                    self.show(base + '| ', v.items())
-                else:
-                    self.show(base + '  ', v.items())
-    #method 3:
-    # TODO if possible use treelib
-    """
-    tree = Tree()
-    tree.create_node("program", 0)  # root node
-    id_glob = 0
-
-    parse_list.reverse()
-    for i in range(len(parse_list)):
-        print(parse_list[i])
-        top_elem = parse_list[i]
-        id_parent = id_glob
-        parent_1 = top_elem[0]
-        child_1 = top_elem[1]
-        if (len(child_1) == 1):
-            child_1_without_bracket = child_1[0]
-            id_glob = id_glob + 1
-            tree.create_node(child_1_without_bracket, id_glob, parent=id_parent)
-        else:
-            for i in range(len(child_1)):
-                id_glob = id_glob + 1
-                child_1_without_bracket = child_1[i]
-                if (len(child_1_without_bracket) == 3):
-                    l = list(child_1_without_bracket)
-                    l.pop()
-                    t = tuple(l)
-                    tree.create_node(str(t), id_glob, parent=id_parent)
-                else:
-                    tree.create_node(child_1_without_bracket, id_glob, parent=id_parent)
-        tree.show()
-
-    return
-    pass
-    def syntax_errors(self, input_token, stack_state, error_msg):
-        # TODO fill the output error file and panic mode
-        # not sure what panic mode in 3 steps mean can apply step 1 but not sure about step 2 , 3
-        # will ask tas about it
-        print("error")
-        return
-        pass
-    """
-"""
-Scanner Part
-"""
 
 # this function reads from file character by character and finds token
 # This functions returns current_position_of_cursor,Token_Type,Lexeme,current_line_position_of_cursor
+"""
+scanner
+"""
 def get_next_token(line_position, program):
     global line_read
     global index
@@ -568,8 +478,6 @@ if __name__ == '__main__':
     file = open('input.txt', 'r')
     program = file.read()
     index = 0
-    global parse_list
-    parse_list=[]
     "Call the parser: "
     parser_obj = Parser()
     parser_obj.parser(cursor_line_position, program)
@@ -579,4 +487,3 @@ if __name__ == '__main__':
         for line in infile:
             if not line.strip(): continue  # skip the empty line
             outfile.write(line)  # non-empty line. Write it to output
-

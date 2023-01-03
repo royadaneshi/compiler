@@ -76,6 +76,7 @@
       <workItem from="1672570683753" duration="61000" />
       <workItem from="1672571000240" duration="182000" />
       <workItem from="1672573178943" duration="84000" />
+      <workItem from="1672662721083" duration="60000" />
     </task>
     <task id="LOCAL-00001" summary="add scanner code to read char by char from file and recognize the token">
       <created>1668672673882</created>
@@ -308,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672573211151</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="3 methods added">
+      <created>1672662754412</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1672662754412</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
