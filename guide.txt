@@ -1,0 +1,16 @@
+#Pid = A
+#Parr = B
+#Pfun = C
+#save = D
+#JPF = E
+#jpf_save = F
+#JP = G
+#label = H
+#while = I
+#EQ = J
+#assign = K
+#LT = L
+#ADD = M
+#SUB = N
+#MULT = P
+#DIV = Q
