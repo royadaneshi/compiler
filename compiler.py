@@ -1,13 +1,10 @@
 import copy
 import re
 import json
-from anytree.exporter import JsonExporter
-from anytree.dotexport import RenderTreeGraph
-from treelib import Node, Tree
 from anytree import Node, RenderTree
-
-
 # Roya Daneshi 99101557 ,Pardis Zahraei 99109777
+from string import Template
+
 
 class Token:
     Invalid = 'Invalid'
@@ -26,12 +23,211 @@ class ErrorMsg:
     Unmatched_comment = 'Unmatched comment'
     Invalid_number = 'Invalid number'
 
+"""
+phase 3
+"""
 
-class ParsErrorMsg:
-    # WATCH OUT:  these two massage here not in the documentation format!
-    Empty_parse_table = "Empty_parse_table_home"
-    Empty_parse_table_goto = "Empty_parse_table_goto_home"
-    # TODO complete error massages in panic mode here base on the documentation
+
+
+class generator:
+    def __init__(self):
+        self.semantic_stack = []
+        self.program_block = []
+        self.i = 0  # address of the first empty home in program block
+        self.t = 496  # increases 4 by 4
+        # WHY 496?
+        pass
+
+    def find_addr(self,input):
+        pass
+
+    def codeGen(self,Action,input):
+        if Action == 'A' or Action == 'B' or Action=='C':
+            p = self.find_addr(input)
+            self.semantic_stack.append(p)
+        elif Action == 'D':
+            self.semantic_stack.append(self.i)
+            self.i=self.i+1
+        elif Action == 'E':
+            self.program_block[self.semantic_stack[self.t]].append(f'(JPF, {self.semantic_stack[self.t-1]},{self.i},)')
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+        elif Action == 'F':
+            self.program_block[self.semantic_stack[self.t]].append(f'(JPF, {self.semantic_stack[self.t-1]},{self.i+1},)')
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.append(self.i)
+            self.i=self.i+1
+        elif Action == 'G':
+            self.program_block[self.semantic_stack[self.t]].append(f'(JP, {self.i},,)')
+            self.semantic_stack.pop()
+        elif Action == 'H':
+            self.semantic_stack.append(self.i)
+        elif Action == 'I':
+            self.program_block[self.semantic_stack[self.t]].append(f'(JPF, {self.semantic_stack[self.t-1]},{self.i+1},)')
+            self.program_block[self.i].append(f'(JP, {self.semantic_stack[self.t-2]},,)')
+            self.i=self.i+1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+        elif Action == 'J':
+          # i implement it as minus
+            temp=self.get_temp()
+            self.program_block[self.i].append(f'(==, {self.semantic_stack[self.t]},{self.semantic_stack[self.t]},{self.t})')
+            self.i=self.i+1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.append(temp)
+        elif Action == 'K':
+            self.program_block[self.i].append(f'(:=, {self.semantic_stack[self.t]},{self.semantic_stack[self.t]},)')
+            self.i=self.i+1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+        elif Action == 'L':
+            # what does it do?
+            pass
+        elif Action == 'M':
+            temp = self.get_temp()
+            self.program_block[self.i].append(
+                f'(+, {self.semantic_stack[self.t]},{self.semantic_stack[self.t]},{self.t})')
+            self.i = self.i + 1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.append(temp)
+        elif Action == 'N':
+            temp = self.get_temp()
+            self.program_block[self.i].append(
+                f'(-, {self.semantic_stack[self.t]},{self.semantic_stack[self.t]},{self.t})')
+            self.i = self.i + 1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.append(temp)
+        elif Action == 'P':
+            temp = self.get_temp()
+            self.program_block[self.i].append(
+                f'(*, {self.semantic_stack[self.t]},{self.semantic_stack[self.t]},{self.t})')
+            self.i = self.i + 1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.append(temp)
+        elif Action == 'Q':
+            temp = self.get_temp()
+            self.program_block[self.i].append(
+                f'(\, {self.semantic_stack[self.t]},{self.semantic_stack[self.t]},{self.t})')
+            self.i = self.i + 1
+            self.semantic_stack.pop()
+            self.semantic_stack.pop()
+            self.semantic_stack.append(temp)
+
+    def code_gen(self, action_symbol):
+        if action_symbol == 'ADD':
+            self.ADD()
+        elif action_symbol == 'MULT':
+            self.MULT()
+        elif action_symbol == 'SUB':
+            self.SUB()
+        elif action_symbol == 'EQ':
+            self.EQ()
+        elif action_symbol == 'LT':
+            self.LT()
+        elif action_symbol == 'ASSIGN':
+            self.ASSIGN()
+        elif action_symbol == 'JPF':
+            self.JPF()
+        elif action_symbol == 'JP':
+            self.JP()
+        elif action_symbol == 'PRINT':
+            self.PRINT()
+        else:
+            print("invalid_semantic_action")
+
+    def get_temp(self):
+        self.t = self.t + 4
+        return self.t
+
+    def find_addr(self, variable):
+        # TODO : looks up the current variable’s address from Symbol Table.
+        pass
+
+    def ADD(self, A1, A2, R):
+        # t1 = self.get_temp()
+        # top = len(self.semantic_stack) - 1
+        self.program_block[self.i] = ('ADD', A1, A2, R)
+        self.i = self.i + 1
+        # self.semantic_stack.pop()
+        # self.semantic_stack.pop()
+        self.semantic_stack.append(R)
+        return
+
+    def MULT(self, A1, A2, R):
+        # t1 = self.get_temp()
+        # top = len(self.semantic_stack) - 1
+        self.program_block[self.i] = ('MULT', A1, A2, R)
+        self.i = self.i + 1
+        # self.semantic_stack.pop()
+        # self.semantic_stack.pop()
+        self.semantic_stack.append(R)
+        return
+
+    def SUB(self, A1, A2, R):
+        # t1 = self.get_temp()
+        # top = len(self.semantic_stack) - 1
+        self.program_block[self.i] = ('SUB', A1, A2, R)
+        self.i = self.i + 1
+        # self.semantic_stack.pop()
+        # self.semantic_stack.pop()
+        self.semantic_stack.append(R)
+        return
+
+    def EQ(self, A1, A2, R):
+        # t1 = self.get_temp()
+        # top = len(self.semantic_stack) - 1
+        self.program_block[self.i] = ('EQ', A1, A2, R)
+        self.i = self.i + 1
+        # self.semantic_stack.pop()
+        # self.semantic_stack.pop()
+        self.semantic_stack.append(R)
+        return
+
+    def LT(self, A1, A2, R):
+        self.program_block[self.i] = ('LT', A1, A2, R)
+        self.i = self.i + 1
+        self.semantic_stack.append(R)
+        return
+
+    def ASSIGN(self, A, R):
+        # top = len(self.semantic_stack) - 1
+        self.program_block[self.i] = ('ASSIGN', A, R, "")
+        self.i = self.i + 1
+        # self.semantic_stack.pop()
+        # self.semantic_stack.pop()
+        return
+
+    def JPF(self, A, L):
+        top = len(self.semantic_stack) - 1  ###############################?
+        self.program_block[self.semantic_stack[top]] = ('JPF', A, L, "")
+        # self.semantic_stack.pop()
+        self.semantic_stack.pop()
+        return
+
+    def JP(self, L):
+        top = len(self.semantic_stack) - 1
+        self.program_block[self.semantic_stack[top]] = ('JP', L, "", "")
+        self.semantic_stack.pop()
+        return
+
+    def PRINT(self,A):
+        # top = len(self.semantic_stack) - 1
+        self.program_block[self.i] = ('PRINT', A, "", "")
+        self.i = self.i + 1
+        # self.semantic_stack.pop()
+        return
+
+    # ---------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 """
@@ -53,8 +249,13 @@ class Parser:
         self.input_tokens = None
         self.Program_node = None
 
-    def parser(self, cursor_line_position_scanner, program_input):  # DONE
 
+    def parser(self, cursor_line_position_scanner, program_input):  # DONE
+        Syntax_table = open("syntax_errors.txt", "w+")
+        Syntax_table.write("There is no syntax error.")
+        Syntax_table.close()
+        parserr_table = open("parse_tree.txt", "w+")
+        parserr_table.close()
         self.stack = []
         self.stack.append("$")  # initialize stack at start state
         self.stack.append("0")
@@ -78,7 +279,7 @@ class Parser:
         while 1:
             stack_state = self.stack[-1]  # get top of the stack
             input_token = self.input_tokens[-1]
-            if type(input_token) is tuple and len(input_token)==3:
+            if type(input_token) is tuple and len(input_token) == 3:
                 l_element = len(input_token) - 1
                 input_token = input_token[:l_element]
             # get top of the input tokens
@@ -100,7 +301,7 @@ class Parser:
                     while True:
                         current_token = get_next_token(cursor_line_position_scanner, program_input)
                         cursor_line_position_scanner = current_token[2]
-                        if type(current_token) is tuple and len(current_token)==3 :
+                        if type(current_token) is tuple and len(current_token) == 3:
                             l_element = len(current_token) - 1
                             current_token = current_token[:l_element]
                         if current_token[0] == "$":
@@ -144,18 +345,119 @@ class Parser:
                             self.Program_node = non_terminal_push_parent
 
                     else:
-                        self.syntax_errors(None, None,
-                                           ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
+                        # self.syntax_errors(None, None,
+                        #    ParsErrorMsg.Empty_parse_table_goto)  # empty home on goto table
+                        pass
+
                     continue
 
                 elif table_content.startswith("accept"):
                     Node('$', parent=non_terminal_push_parent)
                     self.sketch_tree()
-                    print("parse completed!")
                     return 0  # say parse is finished
 
-            else:  # empty home in table
-                self.syntax_errors(input_token, stack_state, ParsErrorMsg.Empty_parse_table)
+            else:
+                syntax_errors = open("syntax_errors.txt", "r")
+                content_file = syntax_errors.read()
+                syntax_errors.close()
+                if content_file == "There is no syntax error.":
+                    syntax_errors = open("syntax_errors.txt", "w")
+                    syntax_errors.close()
+
+                type_1_error = "#$lineno : syntax error , illegal $terminal_err"
+                type_2_error = "#$lineno : syntax error , discarded $terminal2_err from input"
+                type_3_error = "syntax error , discarded $discard1 from stack"
+                type_4_error = "#$lineno : syntax error , missing $terminal3_err"
+                type_5_error = "#$lineno : syntax error , Unexpected EOF"
+                # initial
+                syntax_errors_file = open("syntax_errors.txt", "a+")
+                error_msg = Template(type_1_error).substitute(lineno=cursor_line_position_scanner,
+                                                              terminal_err=input_token[1])
+                syntax_errors_file.write(error_msg + "\n")
+                syntax_errors_file.close()
+                # step 1
+                s_final = 0
+                self.input_tokens.pop()
+                while True:
+                    top_stack_no = self.stack[-1]
+                    top_stack_name = self.stack[-2]
+                    if (isinstance(top_stack_name, Node)):
+                        s_name = top_stack_name.name
+                        s_name = s_name.translate({ord(i): None for i in '\''})
+                    else:
+                        s_name = top_stack_name
+                    list_nonterminals = []
+                    non_terminal_goto = self.parse_table[top_stack_no]
+                    for x in non_terminal_goto:
+                        A = non_terminal_goto[x]
+                        b = 'goto'
+                        if b in A:
+                            list_nonterminals.append(x)
+                        sorted_list_As = sorted(list_nonterminals)
+                    if len(list_nonterminals) != 0:
+                        s_final = top_stack_no
+                        break
+                    if isinstance(self.stack[-2], tuple):
+                        discarded = "(" + s_name[0] + ", " + s_name[1] + ")"
+                    else:
+                        discarded=s_name
+                    syntax_errors_file = open("syntax_errors.txt", "a+")
+                    error_msg = Template(type_3_error).substitute(discard1=discarded)
+                    syntax_errors_file.write(error_msg + "\n")
+                    syntax_errors_file.close()
+                    self.stack.pop()
+                    self.stack.pop()
+                A_step2 = ""
+                # step 2
+                while (True):
+                    current_token = get_next_token(cursor_line_position_scanner, program_input)
+                    current_input = current_token[1]
+                    if current_token[0] == "ID":
+                        current_input = current_token[0]
+                    cursor_line_position_scanner = current_token[2]
+                    if (current_token[0] == "$"):
+                        syntax_errors_file = open("syntax_errors.txt", "a+")
+                        error_msg = Template(type_5_error).substitute(lineno=cursor_line_position_scanner)
+                        syntax_errors_file.write(error_msg + "\n")
+                        syntax_errors_file.close()
+
+                        return
+                    if current_input == '':
+
+                        continue
+
+                    for A in sorted_list_As:
+                        follows_list = self.follow[A]
+
+                        if (current_input in follows_list):
+                            A_step2 = A
+                            break
+                    if (len(A_step2) != 0):
+                        break
+                    if(current_input=="ID"):
+                        current_input=current_token[1]
+                    syntax_errors_file = open("syntax_errors.txt", "a+")
+                    error_msg = Template(type_2_error).substitute(lineno=cursor_line_position_scanner,
+                                                                  terminal2_err=current_input)
+                    syntax_errors_file.write(error_msg + "\n")
+                    syntax_errors_file.close()
+                # step 3
+                if type(current_token) is tuple and len(current_token) == 3:
+                    l_element = len(current_token) - 1
+                    current_token = current_token[:l_element]
+                self.input_tokens.append(current_token)
+                self.stack.append(A_step2)
+                new_state = self.parse_table[s_final][A_step2]
+                num = ""
+                for c in new_state:
+                    if c.isdigit():
+                        num = num + c
+                self.stack.append(num)
+                syntax_errors_file = open("syntax_errors.txt", "a+")
+                error_msg = Template(type_4_error).substitute(lineno=cursor_line_position_scanner,
+                                                              terminal3_err=A_step2)
+                syntax_errors_file.write(error_msg + "\n")
+                syntax_errors_file.close()
 
     def read_json_file(self):  # DONE  # this func called in init function at first.
         f = open('table.json')
@@ -169,14 +471,20 @@ class Parser:
         f.close()
 
     def sketch_tree(self):
+        # initial
+
         parse_tree_file = open("parse_tree.txt", "w+")
         parse_tree_file.close()
         for pre, fill, node in RenderTree(self.Program_node):
-            s=("%s%s" % (pre, node.name))
+            s = ("%s%s" % (pre, node.name))
             s = s.translate({ord(i): None for i in '\''})
             parse_tree_file = open("parse_tree.txt", "a", encoding="utf-8")
-            parse_tree_file.write(s+"\n")
-            parse_tree_file.close()
+            if(node.name=="$"):
+                parse_tree_file.write(s)
+                parse_tree_file.close()
+            else:
+                parse_tree_file.write(s + "\n")
+                parse_tree_file.close()
 
 
 
@@ -185,6 +493,8 @@ class Parser:
 """
 scanner
 """
+
+
 def get_next_token(line_position, program):
     global line_read
     global index

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="3 methods added" />
+    <list default="true" id="b446052b-eb3f-4e36-b535-52181b0f5e3b" name="Changes" comment="grammer">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,6 +79,8 @@
       <workItem from="1672571000240" duration="182000" />
       <workItem from="1672573178943" duration="84000" />
       <workItem from="1672662721083" duration="60000" />
+      <workItem from="1675170203634" duration="59000" />
+      <workItem from="1675171223436" duration="22000" />
     </task>
     <task id="LOCAL-00001" summary="add scanner code to read char by char from file and recognize the token">
       <created>1668672673882</created>
@@ -316,7 +320,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672662754412</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="grammer">
+      <created>1675170230788</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1675170230788</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +369,8 @@
     <MESSAGE value="only token problem" />
     <MESSAGE value="if treelib ok, only errors left" />
     <MESSAGE value="3 methods added" />
-    <option name="LAST_COMMIT_MESSAGE" value="3 methods added" />
+    <MESSAGE value="grammer" />
+    <option name="LAST_COMMIT_MESSAGE" value="grammer" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/compiler_project$main.coverage" NAME="main Coverage Results" MODIFIED="1669468843385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
